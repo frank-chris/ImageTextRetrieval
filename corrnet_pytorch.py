@@ -33,15 +33,13 @@ test_size = 300
 
 """Load data from csv"""
 
-image_vectors = pd.read_csv('/content/drive/Shareddrives/Image-Text-Retrieval/features.csv', header=None)
-image_vectors = np.array(image_vectors)
+# image_vectors = pd.read_csv('/content/drive/Shareddrives/Image-Text-Retrieval/features.csv', header=None)
+# image_vectors = np.array(image_vectors)
 
-text_vectors = pd.read_csv('/content/drive/Shareddrives/Image-Text-Retrieval/out.csv', header=None)
-text_vectors = np.array(text_vectors)
+# text_vectors = pd.read_csv('/content/drive/Shareddrives/Image-Text-Retrieval/out.csv', header=None)
+# text_vectors = np.array(text_vectors)
 
 model_save_path = '/content/drive/Shareddrives/Image-Text-Retrieval/Checkpoints/model_state.pt'
-
-print(image_vectors.shape, text_vectors.shape)
 
 # class Encoder2(nn.Module):
 
@@ -147,16 +145,16 @@ class Decoder(nn.Module):
         combined=F.relu(torch.cat((x,y),1))
         return combined
 
-class Corrnet(nn.Module):
-    def __init__(self,input_vec_dim,common_rep_dim):
-        super(Corrnet,self).__init__()
-        self.encoder=Encoder(input_vec_dim)
-        self.decoder=Decoder(common_rep_dim)
+# class Corrnet(nn.Module):
+#     def __init__(self,input_vec_dim,common_rep_dim):
+#         super(Corrnet,self).__init__()
+#         self.encoder=Encoder(input_vec_dim)
+#         self.decoder=Decoder(common_rep_dim)
 
-    def forward(self,img,txt):
-        common_rep=self.encoder(img,txt)
-        combined=self.decoder(common_rep)
-        return combined
+#     def forward(self,img,txt):
+#         common_rep=self.encoder(img,txt)
+#         combined=self.decoder(common_rep)
+#         return combined
 
 
 class corrnet_dataset(Dataset):
@@ -189,18 +187,20 @@ def preprocess_data():
     ])
     input_tensor = preprocess(input_image)
     images.append(input_tensor)
-  images = np.array(images)
-  images = torch.from_numpy(images.astype(np.float32))
+  images = torch.stack(images)
+  
+  texts = []
 
   # do text preprocessing
 
-  texts = []
+  texts = torch.stack(texts)
 
   return images, texts
 
 
 def get_data_loader():
     img, txt = preprocess_data()
+    img, txt = img[:train_size], txt[:train_size]
 
     loader = DataLoader(corrnet_dataset(img, txt), batch_size=32, shuffle=True)
 
@@ -324,8 +324,8 @@ def predict(img, txt):
   return np.array(euc), np.array(cos)
 
 def print_metrics():
-  img_test = torch.from_numpy(image_vectors[train_size: train_size+test_size].astype(np.float32))
-  txt_test = torch.from_numpy(text_vectors[train_size: train_size+test_size].astype(np.float32))
+  img_test, txt_test = preprocess_data()
+  img_test, txt_test = img_test[train_size:train_size+test_size], txt_test[train_size:train_size+test_size]
 
   mr = []
   top_5_count = 0
@@ -391,24 +391,28 @@ print_metrics()
 
 class image_processor(nn.Module):
   def __init__(self):
-    # super.
+    super(image_processor,self).__init__()
     self.Resnet = models.resnet152()
+    modules = list(self.Resnet.children())[:-1]
+    self.Resnet = nn.Sequential(*modules)
+    self.pool = nn.AdaptiveAvgPool2d(1)
+    self.dense = nn.Linear(2048, 512)
 
   def forward(self,img):
-    # img-> 224*224*3 
     x=self.Resnet(img)
+    x=self.pool(x)
+    x=self.dense(x)
     return x
 
 class word_processor(nn.Module):
   def __init__(self):
-    # super.
+    super(word_processor,self).__init__()
+    # self.LSTM = models.LSTM()
 
-  self.Resnet=resnet()
-
-  def forward(self,img):
-    # img-> 224*224*3 
-    x=self.Resnet(img)
-    return x
+  def forward(self,txt):
+    # x=self.LSTM(txt)
+    # return x
+    pass
 
 
 
@@ -417,10 +421,10 @@ class Corrnet(nn.Module):
         super(Corrnet,self).__init__()
 
         self.img_prcr=image_processor()
-        self.wrd_prcr=text_processor()
+        self.wrd_prcr=word_processor()
 
-        self.encoder
-        self.decoder
+        self.encoder=Encoder(input_vec_dim)
+        self.decoder=Decoder(common_rep_dim)
 
     def forward(self,img,txt):
 
@@ -428,12 +432,10 @@ class Corrnet(nn.Module):
         # txt-> string
 
         self.img_vector=self.img_prcr(img)
-        self.txt_vector=self.txt_prcr(txt)
+        self.txt_vector=self.wrd_prcr(txt)
 
 
-        common_rep=self.encoder(img,txt)
+        common_rep=self.encoder(self.img_vector, self.txt_vector)
         combined=self.decoder(common_rep)
         return combined
 
-# raw-> images(250,250,3)
-# txt-> list
