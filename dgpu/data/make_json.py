@@ -30,8 +30,9 @@ def generate_split(num_samples,train_perc,val_perc):
 
     return train_ids,val_ids,test_ids
 
-def make_file():
-    num_samples=get_len(csv_path)
+def make_file(num_samples=None):
+    if num_samples==None:
+        num_samples=get_len(csv_path)
     # num_samples = 12305
     # train -> 10000, test-> 2305
     train_ids,val_ids,test_ids = generate_split(num_samples,0.8,0.1)
@@ -45,6 +46,8 @@ def make_file():
             line_no+=1
             if line_no==1:
                 continue
+            if(line_no>num_samples):
+              break
             description, image_id = row[1],int(row[2])
             sample_dict={}
             if image_id in train_ids:
@@ -73,11 +76,11 @@ def make_file():
 
 
 if __name__=="__main__":
-    parent_folder = "/content/drive/Shareddrives/Image-Text-Retrieval/deepcca"
+    parent_folder = "/content/Image_Text_Retrieval/dgpu"
     csv_path = parent_folder + "/data/images.csv"
     img_path = "dataset"
     out_path = parent_folder + "/data/reid_raw.json"
-    make_file()
+    make_file(1200)
 
 
 

@@ -57,7 +57,7 @@ class BiLSTM(nn.Module):
 
         embed_sort = embed.index_select(0, idx_sort)
         length_list = text_length[idx_sort]
-        pack = nn.utils.rnn.pack_padded_sequence(embed_sort, length_list.cpu(), batch_first=True)
+        pack = nn.utils.rnn.pack_padded_sequence(embed_sort, length_list, batch_first=True)
 
         bilstm_sort_out, _ = self.bilstm[index](pack)
         bilstm_sort_out  = nn.utils.rnn.pad_packed_sequence(bilstm_sort_out, batch_first=True)

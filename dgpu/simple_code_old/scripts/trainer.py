@@ -22,9 +22,6 @@ batch_size='16'
 lr_decay_ratio='0.9'
 epoches_decay='80_150_200'
 
-
-os.system("rm -rf drive/Shareddrives/Image-Text-Retrieval/new_deepcca/data")
-
 models_path='{CKPT_DIR}/lr-{lr}-decay-{lr_decay_ratio}-batch-{batch_size}'.format(CKPT_DIR=CKPT_DIR,lr=lr,lr_decay_ratio=lr_decay_ratio,batch_size=batch_size)
 
 MODEL_PATH=None
