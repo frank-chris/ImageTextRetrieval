@@ -9,8 +9,7 @@ import random
 # We will implement a Bidirectional LSTM
 
 class BiLSTM(nn.Module):
-    def __init__(self, args):
-    # def __init__(self, hidden_dim, num_stacked_layers= 1, vocab_size, embedding_dim, vocab_size):
+    def __init__(self, hidden_dim, num_stacked_layers = 1, vocab_size, embedding_dim):
         super(BiLSTM, self).__init__()
         
         # Create a word embedding object
