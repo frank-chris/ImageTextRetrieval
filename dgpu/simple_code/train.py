@@ -133,7 +133,7 @@ def main(args):
         save_checkpoint(state, epoch, args.checkpoint_dir, False)
         # state = {'network': network.state_dict(), 'network_ema': ema.shadow, 'optimizer': optimizer.state_dict(), 'W': compute_loss.W,'epoch': args.start_epoch + epoch}
         # save_checkpoint(state, args.start_epoch + epoch, args.checkpoint_dir, False)
-        logging.info('Epoch:  [{}|{}], train_time: {:.3f}, train_loss: {:.3f}'.format(args.start_epoch + epoch, args.num_epoches, train_time, train_loss))
+        logging.info('Epoch:  [{}|{}], train_time: {:.3f}, train_loss: {:.3f}'.format(args.start_epoch + epoch, args.num_epoches, train_time, train_loss*100))
         # logging.info('image_precision: {:.3f}, text_precision: {:.3f}'.format(image_precision, text_precision))
         adjust_lr(optimizer, args.start_epoch + epoch, args)
         scheduler.step()
