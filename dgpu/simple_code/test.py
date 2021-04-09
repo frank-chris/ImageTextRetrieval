@@ -17,8 +17,8 @@ def test(data_loader, network, args):
     # switch to evaluate mode
     network.eval()
     max_size = 64 * len(data_loader)
-    images_bank = torch.zeros((max_size, args.feature_size)).cuda()
-    text_bank = torch.zeros((max_size,args.feature_size)).cuda()
+    images_bank = torch.zeros((max_size, 100)).cuda()
+    text_bank = torch.zeros((max_size,100)).cuda()
     labels_bank = torch.zeros(max_size).cuda()
     index = 0
     with torch.no_grad():
