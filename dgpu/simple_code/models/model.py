@@ -165,7 +165,7 @@ class Model(nn.Module):
 
         z_dash = torch.cat((image_decoded, text_decoded), 1)
 
-        return z, common_rep, z_dash
+        return z, common_rep, z_dash, image_embeddings, text_embeddings
         # return image_features, text_features, common_rep, image_decoded, text_decoded
 
 
