@@ -3,6 +3,7 @@ from .bi_lstm import BiLSTM
 from .mobilenet import MobileNetV1
 from .resnet import resnet50
 import torch
+import torch.nn.functional as F
 
 
 class Image_Encoder(nn.Module):
