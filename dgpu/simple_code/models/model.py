@@ -109,12 +109,17 @@ class Model(nn.Module):
         print("txt_out: ",text_features.shape)
         
         # Here we create pass the text and image through the respective encoders
-        # image_embeddings = self.image_encode(image_features)
-        # text_embeddings = self.text_encode(text_features)
+        image_embeddings = self.image_encode(image_features)
+        text_embeddings = self.text_encode(text_features)
 
         image_embeddings, text_embeddings= self.build_joint_embeddings(image_features, text_features)
 
+        print("img_ret: ",image_embeddings.shape)
+        print("txt_ret: ",text_embeddings.shape)
+
         return image_embeddings, text_embeddings
+
+
 
 
     def build_joint_embeddings(self, images_features, text_features):
