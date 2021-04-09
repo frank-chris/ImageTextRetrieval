@@ -4,90 +4,90 @@ from .mobilenet import MobileNetV1
 from .resnet import resnet50
 
 
-class Image_Encoder(nn.Module):
+# class Image_Encoder(nn.Module):
 
-    def __init__(self, common_dim = 100, input_dim=1024):
+#     def __init__(self, common_dim = 100, input_dim=1024):
         
-        super(Image_Encoder, self).__init__()
+#         super(Image_Encoder, self).__init__()
         
-        self.dims = [input_dim, common_dim]
-        self.layers = nn.ModuleList()
-        self.num_layers = len(self.dims) - 1
-        for i in range(self.num_layers):
-            self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
+#         self.dims = [input_dim, common_dim]
+#         self.layers = nn.ModuleList()
+#         self.num_layers = len(self.dims) - 1
+#         for i in range(self.num_layers):
+#             self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
 
-    def forward(self, inp):
+#     def forward(self, inp):
 
-        x = inp
-        for i in range(self.num_layers):
-            x =F.relu(self.layers[i](x))
+#         x = inp
+#         for i in range(self.num_layers):
+#             x =F.relu(self.layers[i](x))
 
-        return F.relu(x)
+#         return F.relu(x)
         
 
 
-class Text_Encoder(nn.Module):
+# class Text_Encoder(nn.Module):
     
-    def __init__(self, common_dim = 100, input_dim = 1024):
+#     def __init__(self, common_dim = 100, input_dim = 1024):
         
-        super(Image_Encoder, self).__init__()
+#         super(Text_Encoder, self).__init__()
         
-        self.dims = [input_dim, common_dim]
-        self.layers = nn.ModuleList()
-        self.num_layers = len(self.dims) - 1
-        for i in range(self.num_layers):
-            self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
+#         self.dims = [input_dim, common_dim]
+#         self.layers = nn.ModuleList()
+#         self.num_layers = len(self.dims) - 1
+#         for i in range(self.num_layers):
+#             self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
 
-    def forward(self, inp):
+#     def forward(self, inp):
 
-        x = inp
-        for i in range(self.num_layers):
-            x =F.relu(self.layers[i](x))
+#         x = inp
+#         for i in range(self.num_layers):
+#             x =F.relu(self.layers[i](x))
 
-        return F.relu(x)
+#         return F.relu(x)
 
 
 
-class Image_Decoder(nn.Module):
+# class Image_Decoder(nn.Module):
 
-    def __init__(self, common_dim = 100, output_dim = 1024):
+#     def __init__(self, common_dim = 100, output_dim = 1024):
         
-        super(Image_Decoder, self).__init__()
+#         super(Image_Decoder, self).__init__()
         
-        self.dims = [common_dim, output_dim]
-        self.layers = nn.ModuleList()
-        self.num_layers = len(self.dims) - 1
-        for i in range(self.num_layers):
-            self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
+#         self.dims = [common_dim, output_dim]
+#         self.layers = nn.ModuleList()
+#         self.num_layers = len(self.dims) - 1
+#         for i in range(self.num_layers):
+#             self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
 
-    def forward(self, inp):
+#     def forward(self, inp):
 
-        x = inp
-        for i in range(self.num_layers):
-            x =F.relu(self.layers[i](x))
+#         x = inp
+#         for i in range(self.num_layers):
+#             x =F.relu(self.layers[i](x))
 
-        return F.relu(x)
+#         return F.relu(x)
 
        
-class Text_Decoder(nn.Module):
+# class Text_Decoder(nn.Module):
 
-    def __init__(self, common_dim = 100, output_dim = 1024):
+#     def __init__(self, common_dim = 100, output_dim = 1024):
         
-        super(Text_Decoder, self).__init__()
+#         super(Text_Decoder, self).__init__()
         
-        self.dims = [common_dim, output_dim]
-        self.layers = nn.ModuleList()
-        self.num_layers = len(self.dims) - 1
-        for i in range(self.num_layers):
-            self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
+#         self.dims = [common_dim, output_dim]
+#         self.layers = nn.ModuleList()
+#         self.num_layers = len(self.dims) - 1
+#         for i in range(self.num_layers):
+#             self.layers.append(nn.Linear(self.dims[i], self.dims[i + 1]))
 
-    def forward(self, inp):
+#     def forward(self, inp):
 
-        x = inp
-        for i in range(self.num_layers):
-            x =F.relu(self.layers[i](x))
+#         x = inp
+#         for i in range(self.num_layers):
+#             x =F.relu(self.layers[i](x))
 
-        return F.relu(x)
+#         return F.relu(x)
 
 
 class Model(nn.Module):
@@ -114,11 +114,11 @@ class Model(nn.Module):
         self.conv_images = nn.Conv2d(inp_size, args.feature_size, 1)
         self.conv_text = nn.Conv2d(1024, args.feature_size, 1)
 
-        self.image_encode = Image_Encoder(common_dim = 100, input_dim = 1024)
-        self.text_encode = Text_Encoder(common_dim = 100, input_dim = 1024)
+        # self.image_encode = Image_Encoder(common_dim = 100, input_dim = 1024)
+        # self.text_encode = Text_Encoder(common_dim = 100, input_dim = 1024)
         
-        self.image_decode = Image_Decoder(common_dim = 100, output_dim = 1024)
-        self.text_decode = Text_Decoder(common_dim = 100, output_dim = 1024)
+        # self.image_decode = Image_Decoder(common_dim = 100, output_dim = 1024)
+        # self.text_decode = Text_Decoder(common_dim = 100, output_dim = 1024)
 
 
 
