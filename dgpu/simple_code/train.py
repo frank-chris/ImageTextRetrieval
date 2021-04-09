@@ -47,8 +47,11 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
 
         loss = compute_loss(z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash)
 
+        # if step % 10 == 0:
+        #     print('epoch:{}, step:{}, cmpm_loss:{:.3f}, cmpc_loss:{:.3f}'.format(epoch, step, cmpm_loss, cmpc_loss))
+
         if step % 10 == 0:
-            print('epoch:{}, step:{}, cmpm_loss:{:.3f}, cmpc_loss:{:.3f}'.format(epoch, step, cmpm_loss, cmpc_loss))
+            print('epoch:{}, step:{}, loss:{:.3f}'.format(epoch, step, loss))
 
         # constrain embedding with the same id at the end of one epoch
         if (args.constraints_images or args.constraints_text) and step == len(train_loader) - 1:
