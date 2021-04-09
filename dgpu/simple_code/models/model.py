@@ -11,9 +11,9 @@ class Image_Encoder(nn.Module):
         super(Image_Encoder, self).__init__()
         
         self.img_dims = [input_vec_dim, 300, 200, 50]
-        self.fc1_img=nn.Linear(self.img_dims[0], self.img_dims[1])
-        self.fc2_img=nn.Linear(self.img_dims[1], self.img_dims[2])
-        self.fc3_img=nn.Linear(self.img_dims[2], self.img_dims[3])
+        self.fc1_img = nn.Linear(self.img_dims[0], self.img_dims[1])
+        self.fc2_img = nn.Linear(self.img_dims[1], self.img_dims[2])
+        self.fc3_img = nn.Linear(self.img_dims[2], self.img_dims[3])
 
 
     def forward(self, img):
@@ -43,7 +43,7 @@ class Text_Encoder(nn.Module):
         y = F.relu(self.fc2_txt(y))
         y = F.relu(self.fc3_txt(y))
 
-        return F.relu(x)
+        return F.relu(y)
 
 
 class Decoder(nn.Module):
@@ -95,8 +95,8 @@ class Model(nn.Module):
         if args.image_model == 'resnet50' or args.image_model == 'resnet101':
             inp_size = 2048
         # shorten the tensor using 1*1 conv
-        # self.conv_images = nn.Conv2d(inp_size, args.feature_size, 1)
-        # self.conv_text = nn.Conv2d(1024, args.feature_size, 1)
+        self.conv_images = nn.Conv2d(inp_size, args.feature_size, 1)
+        self.conv_text = nn.Conv2d(1024, args.feature_size, 1)
 
         
 
