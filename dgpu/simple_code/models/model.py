@@ -164,7 +164,7 @@ class Model(nn.Module):
 
         z = torch.cat((image_features, text_features), 1)
 
-        z_dash = torch.cat((image_decoded, text_decoded) ,1)
+        z_dash = torch.cat((image_decoded, text_decoded), 1)
 
         return z, common_rep, z_dash
         # return image_features, text_features, common_rep, image_decoded, text_decoded
