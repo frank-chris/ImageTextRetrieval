@@ -146,7 +146,6 @@ class Model(nn.Module):
         image_features = image_features.squeeze()
         text_features = text_features.squeeze()
 
-
         
         # Here we create pass the text and image through the respective encoders
         image_embeddings = self.image_encode(image_features) #16 * 100
@@ -168,8 +167,6 @@ class Model(nn.Module):
 
         return z, common_rep, z_dash
         # return image_features, text_features, common_rep, image_decoded, text_decoded
-
-        return image_embeddings,text_embeddings
 
 
     def build_joint_embeddings(self, images_features, text_features):
