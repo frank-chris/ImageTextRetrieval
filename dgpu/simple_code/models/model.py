@@ -154,7 +154,7 @@ class Model(nn.Module):
 
         # image_embeddings, text_embeddings= self.build_joint_embeddings(image_features, text_features)
 
-        common_rep = torch.add(image, text_embeddings) #16 * 100
+        common_rep = torch.add(image_embeddings, text_embeddings) #16 * 100
         
         image_decoded = self.image_decode(common_rep) #16 * 1024
         text_decoded = self.text_decode(common_rep)
