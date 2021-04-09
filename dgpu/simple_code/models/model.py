@@ -115,11 +115,11 @@ class Model(nn.Module):
         self.conv_images = nn.Conv2d(inp_size, args.feature_size, 1)
         self.conv_text = nn.Conv2d(1024, args.feature_size, 1)
 
-        # self.image_encode = Image_Encoder(common_dim = 100, input_dim = 1024)
-        # self.text_encode = Text_Encoder(common_dim = 100, input_dim = 1024)
+        self.image_encode = Image_Encoder(common_dim = 100, input_dim = 1024)
+        self.text_encode = Text_Encoder(common_dim = 100, input_dim = 1024)
         
-        # self.image_decode = Image_Decoder(common_dim = 100, output_dim = 1024)
-        # self.text_decode = Text_Decoder(common_dim = 100, output_dim = 1024)
+        self.image_decode = Image_Decoder(common_dim = 100, output_dim = 1024)
+        self.text_decode = Text_Decoder(common_dim = 100, output_dim = 1024)
 
 
 
