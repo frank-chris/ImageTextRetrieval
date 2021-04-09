@@ -135,7 +135,7 @@ class Loss(nn.Module):
 
         loss = self_reconstruction + cross_reconstruction_img + cross_reconstruction_txt + correlation
 
-        return loss
+        return loss,self_reconstruction,cross_reconstruction_img,cross_reconstruction_txt,correlation
 
     def compute_corr_loss(self, x, y, lamda):
         x_mean = torch.mean(x, dim = 0) # Along the y-axis, that is, average of all feature vectors

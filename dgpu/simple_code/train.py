@@ -45,13 +45,14 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
         _, common_rep_x, x_dash = network(images, captions, captions_length, is_image_zero=False)
         _, common_rep_y, y_dash = network(images, captions, captions_length, is_text_zero=False)
 
-        loss = compute_loss(z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash)
+        loss,self_reconstruction, cross_reconstruction_img,cross_reconstruction_txt,correlation = compute_loss(z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash)
 
         # if step % 10 == 0:
         #     print('epoch:{}, step:{}, cmpm_loss:{:.3f}, cmpc_loss:{:.3f}'.format(epoch, step, cmpm_loss, cmpc_loss))
 
         if step % 10 == 0:
-            print('epoch:{}, step:{}, loss:{:.3f}'.format(epoch, step, loss))
+            # loss,self_reconstruction,cross_reconstruction_img,cross_reconstruction_txt,correlation
+            print('epoch:{}, step:{}, self_reconstruction:{:.3f}, cross_reconstruction_img {:.3f}, cross_reconstruction_txt {:.3f}, correlation_loss {:.3f}, loss {: .3f}'.format(epoch, step, self_reconstruction, cross_reconstruction_img,cross_reconstruction_txt,correlation, loss))
 
         # constrain embedding with the same id at the end of one epoch
         if (args.constraints_images or args.constraints_text) and step == len(train_loader) - 1:
