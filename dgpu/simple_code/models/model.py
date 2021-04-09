@@ -98,7 +98,6 @@ class Model(nn.Module):
         self.conv_images = nn.Conv2d(inp_size, args.feature_size, 1)
         self.conv_text = nn.Conv2d(1024, args.feature_size, 1)
 
-        
 
 
     def forward(self, images, text, text_length):
@@ -106,8 +105,8 @@ class Model(nn.Module):
         image_features = self.image_model(images) 
         text_features = self.bilstm(text, text_length) 
         
-        print(image_features.shape)
-        print(text_features.shape)
+        print("img_out: ",image_features.shape)
+        print("txt_out: ",text_features.shape)
         
         # Here we create pass the text and image through the respective encoders
         # image_embeddings = self.image_encode(image_features)
