@@ -124,6 +124,15 @@ class Loss(nn.Module):
         
         super(Loss, self).__init__()
         self.criterion=nn.MSELoss()
+
+        if args.resume:
+            checkpoint = torch.load(args.model_path)
+            self.W = Parameter(checkpoint['W'])
+            print('=========> Loading in parameter W from pretrained models')
+        else:
+            self.W = Parameter(torch.randn(args.feature_size, args.num_classes))
+            self.init_weight()
+    
     
     
     def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.002):
