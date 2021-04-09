@@ -162,8 +162,9 @@ class Model(nn.Module):
         # print("img_ret: ",image_embeddings.shape)
         # print("txt_ret: ",text_embeddings.shape)
 
-        z = torch.cat(image_features, text_features)
-        z_dash = torch.cat(image_decoded, text_decoded)
+        z = torch.cat((image_features, text_features), 1)
+
+        z_dash = torch.cat((image_decoded, text_decoded) ,1)
 
         return z, common_rep, z_dash
         # return image_features, text_features, common_rep, image_decoded, text_decoded
