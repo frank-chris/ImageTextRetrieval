@@ -16,7 +16,7 @@ class Image_Encoder(nn.Module):
         self.fc3_img=nn.Linear(self.img_dims[2], self.img_dims[3])
 
 
-    def forward(self,img,txt):
+    def forward(self, img):
 
         x = F.relu(self.fc1_img(img))
         x = F.relu(self.fc2_img(x))
@@ -37,11 +37,11 @@ class Text_Encoder(nn.Module):
         self.fc3_txt = nn.Linear(self.text_dims[2], self.text_dims[3])
 
 
-    def forward(self,img,txt):
+    def forward(self, txt):
 
-        x = F.relu(self.fc1_img(img))
-        x = F.relu(self.fc2_img(x))
-        x = F.relu(self.fc3_img(x))
+        y = F.relu(self.fc1_txt(txt))
+        y = F.relu(self.fc2_txt(y))
+        y = F.relu(self.fc3_txt(y))
 
         return F.relu(x)
 
@@ -105,6 +105,9 @@ class Model(nn.Module):
 
         image_features = self.image_model(images) 
         text_features = self.bilstm(text, text_length) 
+        
+        print(image_features.shape)
+        print(text_features.shape)
         
         # Here we create pass the text and image through the respective encoders
         # image_embeddings = self.image_encode(image_features)
