@@ -2,3 +2,4 @@ dataset/
 drive/
 dgpu/drive/
 dgpu/data/logs
+dgpu/data/processed_data
