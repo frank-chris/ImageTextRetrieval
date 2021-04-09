@@ -131,7 +131,7 @@ class Loss(nn.Module):
         self_reconstruction = self.criterion(z, z_dash)
         cross_reconstruction_img = self.criterion(z, x_dash)
         cross_reconstruction_txt = self.criterion(z, y_dash)
-        correlation = compute_corr_loss(common_rep_x, common_rep_y, lamda)
+        correlation = self.compute_corr_loss(common_rep_x, common_rep_y, lamda)
 
         loss = self_reconstruction + cross_reconstruction_img + cross_reconstruction_txt + correlation
 
