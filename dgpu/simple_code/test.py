@@ -28,6 +28,7 @@ def test(data_loader, network, args):
             captions = captions.cuda()
 
             interval = images.shape[0]
+            print(interval)
             _,_,_,image_embeddings, text_embeddings = network(images, captions, captions_length)
             images_bank[index: index + interval] = image_embeddings
             text_bank[index: index + interval] = text_embeddings
