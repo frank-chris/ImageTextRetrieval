@@ -133,7 +133,9 @@ class Loss(nn.Module):
             self.W = Parameter(torch.randn(args.feature_size, args.num_classes))
             self.init_weight()
     
-    
+    def init_weight(self):
+        nn.init.xavier_uniform_(self.W.data, gain=1)
+
     
     def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.002):
         
