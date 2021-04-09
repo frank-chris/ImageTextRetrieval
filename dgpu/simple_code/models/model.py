@@ -2,6 +2,7 @@ import torch.nn as nn
 from .bi_lstm import BiLSTM
 from .mobilenet import MobileNetV1
 from .resnet import resnet50
+import torch
 
 
 # class Image_Encoder(nn.Module):
@@ -127,8 +128,8 @@ class Model(nn.Module):
         # images.shape -> 16*3*224*224
         # text.shape -> 16*100
 
-        print("inp_images: ",images.shape)
-        print("inp_txt: ",text.shape)
+        # print("inp_images: ",images.shape)
+        # print("inp_txt: ",text.shape)
         
         image_features = self.image_model(images)
         if is_image_zero:
@@ -138,24 +139,24 @@ class Model(nn.Module):
         if is_text_zero:
             text_features = torch.zeros_like(text_features)
         
-        print("img_out: ",image_features.shape)
-        print("txt_out: ",text_features.shape)
+        # print("img_out: ",image_features.shape)
+        # print("txt_out: ",text_features.shape)
 
-        # image_features = image_features.squeeze()
-        # text_features = text_features.squeeze()
+        image_features = image_features.squeeze()
+        text_features = text_features.squeeze()
 
 
         
         # Here we create pass the text and image through the respective encoders
-        # image_embeddings = self.image_encode(image_features) #16 * 100
-        # text_embeddings = self.text_encode(text_features)
+        image_embeddings = self.image_encode(image_features) #16 * 100
+        text_embeddings = self.text_encode(text_features)
 
-        image_embeddings, text_embeddings= self.build_joint_embeddings(image_features, text_features)
+        # image_embeddings, text_embeddings= self.build_joint_embeddings(image_features, text_features)
 
-        # common_rep = torch.add(image, text_embeddings) #16 * 100
+        common_rep = torch.add(image, text_embeddings) #16 * 100
         
-        # image_decoded = self.image_decode(common_rep) #16 * 1024
-        # text_decoded = self.text_decode(common_rep)
+        image_decoded = self.image_decode(common_rep) #16 * 1024
+        text_decoded = self.text_decode(common_rep)
         
         # print("img_ret: ",image_embeddings.shape)
         # print("txt_ret: ",text_embeddings.shape)
