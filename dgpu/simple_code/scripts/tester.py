@@ -1,15 +1,23 @@
 import os
 
-GPUS='1'
+GPUS = '1'
+
+# print('done')
+
 os.system('export CUDA_VISIBLE_DEVICES='+GPUS)
 
-BASE_ROOT='drive/Shareddrives/Image-Text-Retrieval/deepcca_gpu'
+
+BASE_ROOT='/content/Image_Text_Retrieval/dgpu'
+BASE_ROOT_2='drive/Shareddrives/Image-Text-Retrieval/new_deepcca'
 IMAGE_DIR='/content'
 ANNO_DIR=BASE_ROOT+'/data/processed_data'
-CKPT_DIR=BASE_ROOT+'/data/model_data'
-LOG_DIR=BASE_ROOT+'/data/logs'
+CKPT_DIR=BASE_ROOT_2+'/data/model_data'
+LOG_DIR=BASE_ROOT_2+'/data/logs'
+# PRETRAINED_PATH=$BASE_ROOT/pretrained_models/mobilenet.tar
+# PRETRAINED_PATH=$BASE_ROOT/resnet50.pth
 IMAGE_MODEL='mobilenet_v1'
 lr='0.0002'
+num_epoches='50'
 batch_size='16'
 lr_decay_ratio='0.9'
 epoches_decay='80_150_200'
