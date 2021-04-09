@@ -52,7 +52,7 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
 
         if step % 10 == 0:
             # loss,self_reconstruction,cross_reconstruction_img,cross_reconstruction_txt,correlation
-            print('epoch:{}, step:{}, self_reconstruction:{:.3f}, cross_reconstruction_img {:.3f}, cross_reconstruction_txt {:.3f}, correlation_loss {:.3f}, loss {: .3f}'.format(epoch, step, self_reconstruction, cross_reconstruction_img,cross_reconstruction_txt,correlation, loss))
+            print('epoch:{}, step:{}, self_reconstruction:{:.3f}, cross_reconstruction_img {:.3f}, cross_reconstruction_txt {:.3f}, correlation_loss {:.3f}, loss {: .3f}'.format(epoch, step, self_reconstruction, cross_reconstruction_img,cross_reconstruction_txt,correlation, loss*100))
 
         # constrain embedding with the same id at the end of one epoch
         if (args.constraints_images or args.constraints_text) and step == len(train_loader) - 1:
