@@ -122,20 +122,29 @@ class Model(nn.Module):
 
 
 
+    def forward(self, images, text, text_length, is_image_zero=False, is_text_zero=False):
 
-    def forward(self, images, text, text_length):
+        # images.shape -> 16*3*224*224
+        # text.shape -> 16*100
 
         print("inp_images: ",images.shape)
         print("inp_txt: ",text.shape)
         
-        image_features = self.image_model(images) 
+        image_features = self.image_model(images)
+        if is_image_zero:
+            image_features = torch.zeros_like(image_features)
+             
         text_features = self.bilstm(text, text_length) 
+        if is_text_zero:
+            text_features = torch.zeros_like(text_features)
         
         print("img_out: ",image_features.shape)
         print("txt_out: ",text_features.shape)
 
         # image_features = image_features.squeeze()
         # text_features = text_features.squeeze()
+
+
         
         # Here we create pass the text and image through the respective encoders
         # image_embeddings = self.image_encode(image_features) #16 * 100
@@ -151,8 +160,11 @@ class Model(nn.Module):
         # print("img_ret: ",image_embeddings.shape)
         # print("txt_ret: ",text_embeddings.shape)
 
+        z = torch.cat(image_features, text_features)
+        z_dash = torch.cat(image_decoded, text_decoded)
 
-        # return common_rep, image_embeddings, text_embeddings, image_decoded, text_decoded
+        return z, common_rep, z_dash
+        # return image_features, text_features, common_rep, image_decoded, text_decoded
 
         return image_embeddings,text_embeddings
 
@@ -166,3 +178,7 @@ class Model(nn.Module):
 
         return image_embeddings, text_embeddings
         
+
+
+
+

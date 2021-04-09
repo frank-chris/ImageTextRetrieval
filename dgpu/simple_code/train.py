@@ -41,9 +41,11 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
         captions = captions.cuda()
 
         # compute loss
-        image_embeddings, text_embeddings = network(images, captions, captions_length)
-        cmpm_loss, cmpc_loss, loss, image_precision, text_precision, pos_avg_sim, neg_arg_sim = compute_loss(image_embeddings, text_embeddings, labels)
-        
+        z, _, z_dash = network(images, captions, captions_length)
+        _, common_rep_x, x_dash = network(images, captions, captions_length, is_image_zero=False)
+        _, common_rep_y, y_dash = network(images, captions, captions_length, is_text_zero=False)
+
+        loss = compute_loss(z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash)
 
         if step % 10 == 0:
             print('epoch:{}, step:{}, cmpm_loss:{:.3f}, cmpc_loss:{:.3f}'.format(epoch, step, cmpm_loss, cmpc_loss))
@@ -66,10 +68,11 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
         end = time.time()
         
         train_loss.update(loss, images.shape[0])
-        image_pre.update(image_precision, images.shape[0])
-        text_pre.update(text_precision, images.shape[0])
+        # image_pre.update(image_precision, images.shape[0])
+        # text_pre.update(text_precision, images.shape[0])
                 
-    return train_loss.avg, batch_time.avg, image_pre.avg, text_pre.avg
+    return train_loss.avg, batch_time.avg 
+    # image_pre.avg, text_pre.avg
 
 
 def main(args):
@@ -94,39 +97,40 @@ def main(args):
     # network
     network, optimizer = network_config(args, 'train', compute_loss.parameters(), args.resume, args.model_path)
     
-    ema = EMA(args.ema_decay)
-    for name, param in network.named_parameters():
-        if param.requires_grad:
-            ema.register(name, param.data)
+    # ema = EMA(args.ema_decay)
+    # for name, param in network.named_parameters():
+    #     if param.requires_grad:
+    #         ema.register(name, param.data)
     
     # lr_scheduler
     scheduler = lr_scheduler(optimizer, args)
     for epoch in range(args.num_epoches - args.start_epoch):
         # train for one epoch
-        train_loss, train_time, image_precision, text_precision = train(args.start_epoch + epoch, train_loader, network, optimizer, compute_loss, args)
+        # train_loss, train_time, image_precision, text_precision = train(args.start_epoch + epoch, train_loader, network, optimizer, compute_loss, args)
+        train_loss, train_time = train(args.start_epoch + epoch, train_loader, network, optimizer, compute_loss, args)
         # evaluate on validation set
         print('Train done for epoch-{}'.format(args.start_epoch + epoch))
         
-        if epoch == args.epoch_ema:
-            for name, param in network.named_parameters():
-                if param.requires_grad:
-                    ema.register(name, param.data)
+        # if epoch == args.epoch_ema:
+        #     for name, param in network.named_parameters():
+        #         if param.requires_grad:
+        #             ema.register(name, param.data)
 
 
-        if epoch > args.epoch_ema:
-            # ema update
-            for name, param in network.named_parameters():
-                if param.requires_grad:
-                    ema.update(name, param.data)
+        # if epoch > args.epoch_ema:
+        #     # ema update
+        #     for name, param in network.named_parameters():
+        #         if param.requires_grad:
+        #             ema.update(name, param.data)
         
         state = {'network': network.state_dict(), 'optimizer': optimizer.state_dict(), 'W': compute_loss.W, 'epoch': args.start_epoch + epoch}
         #         'ac': [ac_top1_i2t, ac_top10_i2t, ac_top1_t2i, ac_top10_t2i],
         #         'best_ac': [ac_i2t_best, ac_t2i_best]}
         save_checkpoint(state, epoch, args.checkpoint_dir, False)
-        state = {'network': network.state_dict(), 'network_ema': ema.shadow, 'optimizer': optimizer.state_dict(), 'W': compute_loss.W,'epoch': args.start_epoch + epoch}
-        save_checkpoint(state, args.start_epoch + epoch, args.checkpoint_dir, False)
+        # state = {'network': network.state_dict(), 'network_ema': ema.shadow, 'optimizer': optimizer.state_dict(), 'W': compute_loss.W,'epoch': args.start_epoch + epoch}
+        # save_checkpoint(state, args.start_epoch + epoch, args.checkpoint_dir, False)
         logging.info('Epoch:  [{}|{}], train_time: {:.3f}, train_loss: {:.3f}'.format(args.start_epoch + epoch, args.num_epoches, train_time, train_loss))
-        logging.info('image_precision: {:.3f}, text_precision: {:.3f}'.format(image_precision, text_precision))
+        # logging.info('image_precision: {:.3f}, text_precision: {:.3f}'.format(image_precision, text_precision))
         adjust_lr(optimizer, args.start_epoch + epoch, args)
         scheduler.step()
         for param in optimizer.param_groups:
