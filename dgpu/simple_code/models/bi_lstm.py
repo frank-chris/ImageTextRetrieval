@@ -37,7 +37,7 @@ class BiLSTM(nn.Module):
         # unidirectional lstm
         bilstm_out = self.bilstm_out(embed, text_length, 0)
         
-        print("bilstm_out 1:",bilstm_out.shape)
+        # print("bilstm_out 1:",bilstm_out.shape)
 
         
         if self.bidirectional:
@@ -51,7 +51,7 @@ class BiLSTM(nn.Module):
         bilstm_out, _ = torch.max(bilstm_out, dim=1)
         bilstm_out = bilstm_out.unsqueeze(2).unsqueeze(2)
 
-        print("bilstm_out 2:",bilstm_out.shape)
+        # print("bilstm_out 2:",bilstm_out.shape)
         return bilstm_out
 
 
