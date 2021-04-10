@@ -18,7 +18,7 @@ def test(data_loader, network, args):
     network.eval()
     max_size = 64 * len(data_loader)
     images_bank = torch.zeros((max_size, 100)).cuda()
-    text_bank = torch.zeros((max_size,100)).cuda()
+    text_bank = torch.zeros((max_size, 100)).cuda()
     labels_bank = torch.zeros(max_size).cuda()
     index = 0
     with torch.no_grad():
@@ -29,9 +29,12 @@ def test(data_loader, network, args):
 
             interval = images.shape[0]
             print(interval)
-            _,_,_,image_embeddings, text_embeddings = network(images, captions, captions_length)
-            images_bank[index: index + interval] = image_embeddings
-            text_bank[index: index + interval] = text_embeddings
+            _,_,_,image_embeddings,text_embeddings,image_decoded,text_decoded = network(images, captions, captions_length, is_image_zero=True)
+            _,_,_,image_embeddings2,text_embeddings2,image_decoded2,text_decoded2 = network(images, captions, captions_length, is_text_zero=True)
+            
+
+            images_bank[index: index + interval] = text_decoded
+            text_bank[index: index + interval] = text_decoded2
             labels_bank[index:index + interval] = labels
             batch_time.update(time.time() - end)
             end = time.time()

@@ -41,9 +41,9 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
         captions = captions.cuda()
 
         # compute loss
-        z, _, z_dash, _, _ = network(images, captions, captions_length)
-        _, common_rep_x, x_dash, _, _ = network(images, captions, captions_length, is_image_zero=True)
-        _, common_rep_y, y_dash, _, _ = network(images, captions, captions_length, is_text_zero=True)
+        z, _, z_dash, _, _, _, _ = network(images, captions, captions_length)
+        _, common_rep_x, x_dash, _, _, _, _ = network(images, captions, captions_length, is_image_zero=True)
+        _, common_rep_y, y_dash, _, _, _, _ = network(images, captions, captions_length, is_text_zero=True)
 
         loss,self_reconstruction, cross_reconstruction_img,cross_reconstruction_txt,correlation = compute_loss(z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash)
 

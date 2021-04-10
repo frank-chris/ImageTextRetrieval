@@ -139,10 +139,10 @@ class Loss(nn.Module):
     
     def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.002):
         
-        self_reconstruction = self.criterion(z, z_dash)
-        cross_reconstruction_img = self.criterion(z, x_dash)
-        cross_reconstruction_txt = self.criterion(z, y_dash)
-        correlation = self.compute_corr_loss(common_rep_x, common_rep_y, lamda)
+        self_reconstruction = self.criterion(z, z_dash)*1000
+        cross_reconstruction_img = self.criterion(z, x_dash)*1000
+        cross_reconstruction_txt = self.criterion(z, y_dash)*1000
+        correlation = self.compute_corr_loss(common_rep_x, common_rep_y, lamda)*1000
 
         loss = self_reconstruction + cross_reconstruction_img + cross_reconstruction_txt + correlation
 
