@@ -137,7 +137,7 @@ class Loss(nn.Module):
         nn.init.xavier_uniform_(self.W.data, gain=1)
 
     
-    def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.002):
+    def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.2):
         
         self_reconstruction = self.criterion(z, z_dash)*1000
         cross_reconstruction_img = self.criterion(z, x_dash)*1000
