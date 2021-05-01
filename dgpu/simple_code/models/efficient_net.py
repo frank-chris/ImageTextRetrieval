@@ -8,7 +8,7 @@ Imported by https://github.com/lukemelas/EfficientNet-PyTorch
 
 from efficientnet_pytorch import EfficientNet
 
-class EfficientNet(nn.Module):
+class Efficient_Net(nn.Module):
     def __init__(self):
         print(torch.__version__)
         self.model = EfficientNet.from_pretrained('efficientnet-b0')
