@@ -13,5 +13,6 @@ class EfficientNet(nn.Module):
 
 
     def forward(self, x):
+        print("Hey")
         return self.model.extract_features
 
