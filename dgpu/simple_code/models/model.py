@@ -18,7 +18,8 @@ class Model(nn.Module):
         elif args.image_model == 'efficient_net':
             self.image_model = efficient_net()
 
-        self.bilstm = BiLSTM(args.num_lstm_units, num_stacked_layers = 1, vocab_size = args.vocab_size, embedding_dim = 512)
+        # self.bilstm = BiLSTM(args.num_lstm_units, num_stacked_layers = 1, vocab_size = args.vocab_size, embedding_dim = 512)
+        self.bilstm = BiLSTM(args)
         self.bilstm.apply(self.bilstm.weight_init)
 
         inp_size = 1024
