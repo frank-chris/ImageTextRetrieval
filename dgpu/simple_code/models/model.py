@@ -2,7 +2,7 @@ import torch.nn as nn
 from .bi_lstm import BiLSTM
 from .mobilenet import MobileNetV1
 from .resnet import resnet50
-from .efficient_net import efficient_net
+from .efficient_net import EfficientNet
 
 
 class Model(nn.Module):
