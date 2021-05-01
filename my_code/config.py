@@ -7,7 +7,7 @@ import torch.backends.cudnn as cudnn
 import random
 import numpy as np
 import logging
-from datasets.pedes import CuhkPedes
+from datasets.fashion import Fashion
 from models.model import Model
 from utils import directory
 
@@ -25,6 +25,7 @@ def data_config(image_dir, anno_dir, batch_size, split, max_length, transform):
     return loader
 
 def network_config(args, split='train', param=None, resume=False, model_path=None, ema=False):
+
     network = Model(args)
     network = nn.DataParallel(network)
     cudnn.benchmark = True
@@ -131,6 +132,8 @@ def adjust_lr(optimizer, epoch, args):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     logging.info('lr:{}'.format(lr))
+
+
 
 def lr_scheduler(optimizer, args):
     if '_' in args.epoches_decay:

@@ -3,30 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 import numpy as np
-import logging
 from torch.nn.parameter import Parameter
 from torch.autograd import Variable
-
-logger = logging.getLogger()                                                                                                                                                                            
-logger.setLevel(logging.INFO)
-
-
-
-class EMA():
-    def __init__(self, decay=0.999):
-        self.decay = decay
-        self.shadow = {}
-
-    def register(self, name, val):
-        self.shadow[name] = val.cpu().detach()
-
-    def get(self, name):
-        return self.shadow[name]
-
-    def update(self, name, x):
-        assert name in self.shadow
-        new_average = (1.0 - self.decay) * x.cpu().detach() + self.decay * self.shadow[name]
-        self.shadow[name] = new_average.clone()
 
 
 def pairwise_distance(A, B):
@@ -55,126 +33,31 @@ def one_hot_coding(index, k):
     return out
 
 
-# deprecated due to the large memory usage
-def constraints_old(features, labels):
-    distance = pairwise_distance(features, features)
-    labels_reshape = torch.reshape(labels, (features.shape[0], 1))
-    labels_dist = labels_reshape - labels_reshape.t()
-    labels_mask = (labels_dist == 0).float()
 
-    # Average loss with each matching pair
-    num = torch.sum(labels_mask) - features.shape[0]
-    if num == 0:
-        con_loss = 0.0
-    else:
-        con_loss = torch.sum(distance * labels_mask) / num
+#################################################################
+# LOSS MODULE
+#################################################################
 
-    return con_loss
-
-
-def constraints(features, labels):
-    labels = torch.reshape(labels, (labels.shape[0],1))
-    con_loss = AverageMeter()
-    index_dict = {k.item() for k in labels}
-    for index in index_dict:
-        labels_mask = (labels == index)
-        feas = torch.masked_select(features, labels_mask)
-        feas = feas.view(-1, features.shape[1])
-        distance = pairwise_distance(feas, feas)
-        #torch.sqrt_(distance)
-        num = feas.shape[0] * (feas.shape[0] - 1)
-        loss = torch.sum(distance) / num
-        con_loss.update(loss, n = num / 2)
-    return con_loss.avg
-
-
-def constraints_loss(data_loader, network, args):
-    network.eval()
-    max_size = args.batch_size * len(data_loader)
-    images_bank = torch.zeros((max_size, args.feature_size))
-    text_bank = torch.zeros((max_size,args.feature_size))
-    labels_bank = torch.zeros(max_size)
-    index = 0
-    con_images = 0.0
-    con_text = 0.0
-    with torch.no_grad():
-        for images, captions, labels, captions_length in data_loader:
-            images = images
-            captions = captions
-            interval = images.shape[0]
-            image_embeddings, text_embeddings = network(images, captions, captions_length)
-            images_bank[index: index + interval] = image_embeddings
-            text_bank[index: index + interval] = text_embeddings
-            labels_bank[index: index + interval] = labels
-            index = index + interval
-        images_bank = images_bank[:index]
-        text_bank = text_bank[:index]
-        labels_bank = labels_bank[:index]
-    
-    if args.constraints_text:
-        con_text = constraints(text_bank, labels_bank)
-    if args.constraints_images:
-        con_images = constraints(images_bank, labels_bank)
-
-    return con_images, con_text
-   
 
 class Loss(nn.Module):
+
     def __init__(self, args):
+
         super(Loss, self).__init__()
-        self.CMPM = args.CMPM
-        self.CMPC = args.CMPC
+
+        self.CMPM = True
         self.epsilon = args.epsilon
-        self.num_classes = args.num_classes
+
+        self.num_images = args.num_images
+
         if args.resume:
             checkpoint = torch.load(args.model_path)
             self.W = Parameter(checkpoint['W'])
-            print('=========> Loading in parameter W from pretrained models')
+            print('=====> Loading weights from pretrained path')
         else:
-            self.W = Parameter(torch.randn(args.feature_size, args.num_classes))
-            self.init_weight()
+            self.W = Parameter(torch.randn(args.feature_size, args.num_images))
+            nn.init.xavier_uniform_(self.W.data, gain=1)        
 
-    def init_weight(self):
-        nn.init.xavier_uniform_(self.W.data, gain=1)
-        
-
-    def compute_cmpc_loss(self, image_embeddings, text_embeddings, labels):
-        """
-        Cross-Modal Projection Classfication loss(CMPC)
-        :param image_embeddings: Tensor with dtype torch.float32
-        :param text_embeddings: Tensor with dtype torch.float32
-        :param labels: Tensor with dtype torch.int32
-        :return:
-        """
-        criterion = nn.CrossEntropyLoss(reduction='mean')
-        self.W_norm = self.W / self.W.norm(dim=0)
-        #labels_onehot = one_hot_coding(labels, self.num_classes).float()
-        image_norm = image_embeddings / image_embeddings.norm(dim=1, keepdim=True)
-        text_norm = text_embeddings / text_embeddings.norm(dim=1, keepdim=True)
-
-        image_proj_text = torch.sum(image_embeddings * text_norm, dim=1, keepdim=True) * text_norm
-        text_proj_image = torch.sum(text_embeddings * image_norm, dim=1, keepdim=True) * image_norm
-
-        image_logits = torch.matmul(image_proj_text, self.W_norm)
-        text_logits = torch.matmul(text_proj_image, self.W_norm)
-        
-        #labels_one_hot = one_hot_coding(labels, num_classes)
-        '''
-        ipt_loss = criterion(input=image_logits, target=labels)
-        tpi_loss = criterion(input=text_logits, target=labels)
-        cmpc_loss = ipt_loss + tpi_loss
-        '''
-        cmpc_loss = criterion(image_logits, labels) + criterion(text_logits, labels)
-        #cmpc_loss = - (F.log_softmax(image_logits, dim=1) + F.log_softmax(text_logits, dim=1)) * labels_onehot
-        #cmpc_loss = torch.mean(torch.sum(cmpc_loss, dim=1))
-        # classification accuracy for observation
-        image_pred = torch.argmax(image_logits, dim=1)
-        text_pred = torch.argmax(text_logits, dim=1)
-
-        image_precision = torch.mean((image_pred == labels).float())
-        text_precision = torch.mean((text_pred == labels).float())
-
-        return cmpc_loss, image_precision, text_precision
 
 
     def compute_cmpm_loss(self, image_embeddings, text_embeddings, labels):
@@ -222,41 +105,17 @@ class Loss(nn.Module):
 
 
     def forward(self, image_embeddings, text_embeddings, labels):
+
         cmpm_loss = 0.0
-        cmpc_loss = 0.0
-        image_precision = 0.0
-        text_precision = 0.0
         neg_avg_sim = 0.0
         pos_avg_sim =0.0
+
         if self.CMPM:
             cmpm_loss, pos_avg_sim, neg_avg_sim = self.compute_cmpm_loss(image_embeddings, text_embeddings, labels)
-        if self.CMPC:
-            cmpc_loss, image_precision, text_precision = self.compute_cmpc_loss(image_embeddings, text_embeddings, labels)
         
-        loss = cmpm_loss + cmpc_loss
+        return cmpm_loss, pos_avg_sim, neg_avg_sim
+
         
-        return cmpm_loss, cmpc_loss, loss, image_precision, text_precision, pos_avg_sim, neg_avg_sim
-
-
-class AverageMeter(object):
-    """
-    Computes and stores the averate and current value
-    Imported from https://github.com/pytorch/examples/blob/master/imagenet/main.py #L247-262
-    """
-    def __init__(self):
-        self.reset()
-
-    def reset(self):
-        self.val = 0
-        self.avg = 0
-        self.sum = 0
-        self.count = 0
-
-    def update(self, val, n=1):
-        self.val = val
-        self.sum += n * val
-        self.count += n
-        self.avg = self.sum / self.count
 
 
 def compute_topk(query, gallery, target_query, target_gallery, k=[1,10], reverse=False):
