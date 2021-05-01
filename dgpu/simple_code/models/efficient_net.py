@@ -9,8 +9,8 @@ from efficientnet_pytorch import EfficientNet
 
 class EfficientNet(nn.Module):
     def __init__(self):
-        self.model = EfficientNet.from_pretrained('efficientnet-b5')
-        model._fc.out_features = 45
+        print(torch.__version__)
+        self.model = EfficientNet.from_pretrained('efficientnet-b0')
 
     def forward(self, x):
         print("Hey")
