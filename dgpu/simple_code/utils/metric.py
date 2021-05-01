@@ -117,53 +117,9 @@ def constraints_loss(data_loader, network, args):
         con_images = constraints(images_bank, labels_bank)
 
     return con_images, con_text
+   
 
 class Loss(nn.Module):
-    
-    def __init__(self, args):
-        
-        super(Loss, self).__init__()
-        self.criterion=nn.MSELoss()
-
-        if args.resume:
-            checkpoint = torch.load(args.model_path)
-            self.W = Parameter(checkpoint['W'])
-            print('=========> Loading in parameter W from pretrained models')
-        else:
-            self.W = Parameter(torch.randn(args.feature_size, args.num_classes))
-            self.init_weight()
-    
-    def init_weight(self):
-        nn.init.xavier_uniform_(self.W.data, gain=1)
-
-    
-    def forward(self, z, z_dash, common_rep_x, x_dash, common_rep_y, y_dash, lamda = 0.02):
-        
-        self_reconstruction = self.criterion(z, z_dash)*1000
-        cross_reconstruction_img = self.criterion(z, x_dash)*1000
-        cross_reconstruction_txt = self.criterion(z, y_dash)*1000
-        correlation = self.compute_corr_loss(common_rep_x, common_rep_y, lamda)*1000
-
-        loss = self_reconstruction + cross_reconstruction_img + cross_reconstruction_txt + correlation
-
-        return loss,self_reconstruction,cross_reconstruction_img,cross_reconstruction_txt,correlation
-
-    def compute_corr_loss(self, x, y, lamda):
-        x_mean = torch.mean(x, dim = 0) # Along the y-axis, that is, average of all feature vectors
-        y_mean = torch.mean(y, dim = 0) # 1 x 100 dimensional
-        x_centered = torch.sub(x, torch.mean(x)) # calculates xi - X_mean n x 50 dimensional
-        y_centered = torch.sub(y,torch.mean(y)) # calculates xi - X_mean
-        corr_nr = torch.sum(torch.mul(x_centered, y_centered)) # The numerator
-        # print(list(corr_nr.shape))
-        corr_dr1 = torch.sqrt(torch.sum(torch.square(x_centered)))
-        corr_dr2 = torch.sqrt(torch.sum(torch.square(y_centered)))
-        corr_dr = corr_dr1 * corr_dr2
-        corr = -lamda * corr_nr / corr_dr
-        # print(corr.item()) # Should decrease ideally
-        return corr
-
-
-class Loss2(nn.Module):
     def __init__(self, args):
         super(Loss, self).__init__()
         self.CMPM = args.CMPM
@@ -180,7 +136,7 @@ class Loss2(nn.Module):
 
     def init_weight(self):
         nn.init.xavier_uniform_(self.W.data, gain=1)
-
+        
 
     def compute_cmpc_loss(self, image_embeddings, text_embeddings, labels):
         """

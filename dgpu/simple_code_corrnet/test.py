@@ -17,8 +17,8 @@ def test(data_loader, network, args):
     # switch to evaluate mode
     network.eval()
     max_size = 64 * len(data_loader)
-    images_bank = torch.zeros((max_size, args.feature_size)).cuda()
-    text_bank = torch.zeros((max_size,args.feature_size)).cuda()
+    images_bank = torch.zeros((max_size, 1024)).cuda()
+    text_bank = torch.zeros((max_size, 1024)).cuda()
     labels_bank = torch.zeros(max_size).cuda()
     index = 0
     with torch.no_grad():
@@ -28,9 +28,13 @@ def test(data_loader, network, args):
             captions = captions.cuda()
 
             interval = images.shape[0]
-            image_embeddings, text_embeddings = network(images, captions, captions_length)
-            images_bank[index: index + interval] = image_embeddings
-            text_bank[index: index + interval] = text_embeddings
+            print(interval)
+            _,_,_,image_embeddings,text_embeddings,image_decoded,text_decoded = network(images, captions, captions_length, is_image_zero=True)
+            _,_,_,image_embeddings2,text_embeddings2,image_decoded2,text_decoded2 = network(images, captions, captions_length, is_text_zero=True)
+            
+
+            images_bank[index: index + interval] = text_decoded
+            text_bank[index: index + interval] = text_decoded2
             labels_bank[index:index + interval] = labels
             batch_time.update(time.time() - end)
             end = time.time()
@@ -66,11 +70,11 @@ def main(args):
         if os.path.isdir(model_file):
             continue
         epoch = i2t_model.split('.')[0]
-        if int(epoch) >= args.epoch_ema:
-            ema = True
-        else:
-            ema = False
-        network, _ = network_config(args, [0], 'test', None, True, model_file, ema)
+        # if int(epoch) >= args.epoch_ema:
+        #     ema = True
+        # else:
+        #     ema = False
+        network, _ = network_config(args, 'test', None, True, model_file, False)
         ac_top1_i2t, ac_top10_i2t, ac_top1_t2i, ac_top10_t2i, test_time = test(test_loader, network, args)
         if ac_top1_t2i > ac_t2i_top1_best:
             ac_i2t_top1_best = ac_top1_i2t

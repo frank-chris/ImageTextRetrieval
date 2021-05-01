@@ -38,9 +38,9 @@ def network_config(args, split='train', param=None, resume=False, model_path=Non
         # best_prec1 = checkpoint['best_prec1']
         #network.load_state_dict(checkpoint['state_dict'])
         network_dict = checkpoint['network']
-        if ema:
-            logging.info('==> EMA Loading')
-            network_dict.update(checkpoint['network_ema'])
+        # if ema:
+        #     logging.info('==> EMA Loading')
+        #     network_dict.update(checkpoint['network_ema'])
         network.load_state_dict(network_dict) 
         print('==> Loading checkpoint "{}"'.format(model_path))
     else:
@@ -115,16 +115,17 @@ def dir_config(args):
 
 def adjust_lr(optimizer, epoch, args):
     # Decay learning rate by args.lr_decay_ratio every args.epoches_decay
+    lr=args.lr
     if args.lr_decay_type == 'exponential':
         if '_' in args.epoches_decay:
             epoches_list = args.epoches_decay.split('_')
             epoches_list = [int(e) for e in epoches_list]
             for times, e in enumerate(epoches_list):
-                if epoch / e  == 0:
+                if epoch%e  == 0:
                     lr = args.lr * ((1 - args.lr_decay_ratio) ** times)
                     break
-                times = len(epoches_list)
-                lr = args.lr * ((1 - args.lr_decay_ratio) ** times)
+                # times = len(epoches_list)
+                # lr = args.lr * ((1 - args.lr_decay_ratio) ** times)
         else:
             epoches_decay = int(args.epoches_decay)
             lr = args.lr * ((1 - args.lr_decay_ratio) ** (epoch // epoches_decay))

@@ -37,6 +37,9 @@ class BiLSTM(nn.Module):
         # unidirectional lstm
         bilstm_out = self.bilstm_out(embed, text_length, 0)
         
+        # print("bilstm_out 1:",bilstm_out.shape)
+
+        
         if self.bidirectional:
             index_reverse = list(range(embed.shape[0]-1, -1, -1))
             index_reverse = torch.LongTensor(index_reverse).cuda()
@@ -47,6 +50,8 @@ class BiLSTM(nn.Module):
             bilstm_out = torch.cat([bilstm_out, bilstm_out_bidirection_reverse], dim=2)
         bilstm_out, _ = torch.max(bilstm_out, dim=1)
         bilstm_out = bilstm_out.unsqueeze(2).unsqueeze(2)
+
+        # print("bilstm_out 2:",bilstm_out.shape)
         return bilstm_out
 
 
@@ -57,7 +62,7 @@ class BiLSTM(nn.Module):
 
         embed_sort = embed.index_select(0, idx_sort)
         length_list = text_length[idx_sort]
-        pack = nn.utils.rnn.pack_padded_sequence(embed_sort, length_list, batch_first=True)
+        pack = nn.utils.rnn.pack_padded_sequence(embed_sort, length_list.cpu(), batch_first=True)
 
         bilstm_sort_out, _ = self.bilstm[index](pack)
         bilstm_sort_out  = nn.utils.rnn.pad_packed_sequence(bilstm_sort_out, batch_first=True)
