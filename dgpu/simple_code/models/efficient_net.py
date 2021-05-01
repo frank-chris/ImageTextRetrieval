@@ -10,6 +10,7 @@ from efficientnet_pytorch import EfficientNet
 
 class Efficient_Net(nn.Module):
     def __init__(self):
+        super(Efficient_Net, self).__init__()
         print(torch.__version__)
         self.model = EfficientNet.from_pretrained('efficientnet-b0')
 
