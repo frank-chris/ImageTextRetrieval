@@ -2,7 +2,7 @@ import torch.nn as nn
 from .bi_lstm import BiLSTM
 from .mobilenet import MobileNetV1
 from .resnet import resnet50
-from .efficient_net import Efficient_Net
+from .efficient_net import EfficientNet
 
 
 class Model(nn.Module):
@@ -16,7 +16,7 @@ class Model(nn.Module):
         elif args.image_model == 'resnet101':
             self.image_model = resnet101()
         elif args.image_model == 'efficient_net':
-            self.image_model = Efficient_Net()
+            self.image_model = EfficientNet()
 
         # self.bilstm = BiLSTM(args.num_lstm_units, num_stacked_layers = 1, vocab_size = args.vocab_size, embedding_dim = 512)
         self.bilstm = BiLSTM(args)
