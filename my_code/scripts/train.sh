@@ -1,7 +1,7 @@
 GPUS=0
 export CUDA_VISIBLE_DEVICES=$GPUS
 
-BASE_ROOT=/mnt/c/Users/RAGHAV/Raghav_Goyal/Sem_6/Machine_Learning/project/deepcca
+BASE_ROOT=/mnt/c/Users/RAGHAV/Raghav_Goyal/Sem_6/Machine_Learning/project/Image_Text_Retrieval
 IMAGE_DIR=/mnt/c/Users/RAGHAV/Raghav_Goyal/Sem_6/Machine_Learning/project/Image_Text_Retrieval/dataset
 ANNO_DIR=$BASE_ROOT/data/processed_data
 CKPT_DIR=$BASE_ROOT/data/model_data
@@ -16,8 +16,6 @@ lr_decay_ratio=0.9
 epoches_decay=80_150_200
 
 python3 $BASE_ROOT/my_code/train.py \
-    --CMPC \
-    --CMPM \
     --bidirectional \
     --image_model $IMAGE_MODEL \
     --log_dir $LOG_DIR/lr-$lr-decay-$lr_decay_ratio-batch-$batch_size \
@@ -30,5 +28,5 @@ python3 $BASE_ROOT/my_code/train.py \
     --lr $lr \
     --lr_decay_ratio $lr_decay_ratio \
     --epoches_decay ${epoches_decay} \
-    --num_classes 12305
+    --num_images 12305
 
