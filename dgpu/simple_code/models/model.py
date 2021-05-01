@@ -32,7 +32,7 @@ class Model(nn.Module):
 
     def forward(self, images, text, text_length):
         image_features = self.image_model(images)
-        print("Image shape", image_features.shape)
+        # print("Image shape", image_features.shape)
         text_features = self.bilstm(text, text_length)
         image_embeddings, text_embeddings= self.build_joint_embeddings(image_features, text_features)
 
