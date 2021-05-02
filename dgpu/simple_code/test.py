@@ -60,16 +60,18 @@ def main(args):
     ac_t2i_top1_best = 0.0
     ac_t2i_top10_best = 0.0
     i2t_models = os.listdir(args.model_path)
-    i2t_models.sort()
+    i2t_models.remove('model_best')
+    i2t_models.sort(key=lambda x: int(x.split('.')[0]))
+    i2t_models = i2t_models[-2:-1]
     for i2t_model in i2t_models:
         model_file = os.path.join(args.model_path, i2t_model)
         if os.path.isdir(model_file):
             continue
         epoch = i2t_model.split('.')[0]
-        if int(epoch) >= args.epoch_ema:
-            ema = True
-        else:
-            ema = False
+        # if int(epoch) >= args.epoch_ema:
+        #     ema = True
+        # else:
+        #     ema = False
         network, _ = network_config(args, 'test', None, True, model_file, ema)
         ac_top1_i2t, ac_top10_i2t, ac_top1_t2i, ac_top10_t2i, test_time = test(test_loader, network, args)
         if ac_top1_t2i > ac_t2i_top1_best:
