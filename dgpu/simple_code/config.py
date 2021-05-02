@@ -38,9 +38,9 @@ def network_config(args, split='train', param=None, resume=False, model_path=Non
         # best_prec1 = checkpoint['best_prec1']
         #network.load_state_dict(checkpoint['state_dict'])
         network_dict = checkpoint['network']
-        if ema:
-            logging.info('==> EMA Loading')
-            network_dict.update(checkpoint['network_ema'])
+        # if ema:
+        #     logging.info('==> EMA Loading')
+        #     network_dict.update(checkpoint['network_ema'])
         network.load_state_dict(network_dict) 
         print('==> Loading checkpoint "{}"'.format(model_path))
     else:
