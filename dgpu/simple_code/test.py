@@ -68,10 +68,10 @@ def main(args):
         if os.path.isdir(model_file):
             continue
         epoch = i2t_model.split('.')[0]
-        # if int(epoch) >= args.epoch_ema:
-        #     ema = True
-        # else:
-        #     ema = False
+        if int(epoch) >= args.epoch_ema:
+            ema = True
+        else:
+            ema = False
         network, _ = network_config(args, 'test', None, True, model_file, ema)
         ac_top1_i2t, ac_top10_i2t, ac_top1_t2i, ac_top10_t2i, test_time = test(test_loader, network, args)
         if ac_top1_t2i > ac_t2i_top1_best:
