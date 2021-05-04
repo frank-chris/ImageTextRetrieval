@@ -80,7 +80,7 @@ if __name__=="__main__":
     csv_path = parent_folder + "/data/images.csv"
     img_path = "dataset"
     out_path = parent_folder + "/data/reid_raw.json"
-    make_file(1200)
+    # make_file(1200)
 
 
 
