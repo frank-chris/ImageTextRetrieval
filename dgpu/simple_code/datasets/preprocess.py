@@ -1,5 +1,5 @@
 import sys
-sys.path.append("drive/Shareddrives/Image-Text-Retrieval/deepcca/my_code")
+sys.path.append("/content/Image_Text_Retrieval/dgpu/simple_code/")
 import pickle
 import json
 import argparse
