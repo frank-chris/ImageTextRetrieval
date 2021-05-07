@@ -46,8 +46,8 @@ def make_file(num_samples=None):
             line_no+=1
             if line_no==1:
                 continue
-            if(line_no>num_samples):
-              break
+            # if(line_no>num_samples):
+            #   break
             description, image_id = row[1],int(row[2])
             sample_dict={}
             if image_id in train_ids:
@@ -80,7 +80,7 @@ if __name__=="__main__":
     csv_path = parent_folder + "/data/images.csv"
     img_path = "dataset"
     out_path = parent_folder + "/data/reid_raw.json"
-    # make_file(1200)
+    make_file()
 
 
 

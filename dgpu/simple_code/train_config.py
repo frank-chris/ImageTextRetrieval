@@ -31,7 +31,7 @@ def parse_args():
     parser.add_argument('--num_epoches', type=int, default=100)
     parser.add_argument('--ckpt_steps', type=int, default=5000, help='#steps to save checkpoint')
     parser.add_argument('--feature_size', type=int, default=512)
-    parser.add_argument('--img_model', type=str, default='mobilenet_v1', help='model to train images')
+    # parser.add_argument('--img_model', type=str, default='mobilenet_v1', help='model to train images')
     parser.add_argument('--loss_weight', type=float, default=1)
     parser.add_argument('--CMPM', action='store_true')
     parser.add_argument('--CMPC', action='store_true')
