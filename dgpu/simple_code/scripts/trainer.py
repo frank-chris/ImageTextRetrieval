@@ -8,7 +8,7 @@ os.system('export CUDA_VISIBLE_DEVICES='+GPUS)
 
 
 BASE_ROOT='/content/Image_Text_Retrieval/dgpu'
-BASE_ROOT_2='drive/Shareddrives/Image-Text-Retrieval/new_deepcca_full'
+BASE_ROOT_2='drive/Shareddrives/Image-Text-Retrieval/new_deepcca_full_2'
 IMAGE_DIR='/content'
 ANNO_DIR=BASE_ROOT+'/data/processed_data'
 CKPT_DIR=BASE_ROOT_2+'/data/model_data'
