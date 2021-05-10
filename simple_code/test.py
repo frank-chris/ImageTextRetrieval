@@ -5,14 +5,17 @@ import shutil
 import gc
 import torch
 import torchvision.transforms as transforms
-
+import torch.nn as nn
 import torch.utils.data as data
 
 from utils.helpers import avg_calculator
 from utils.metric import compute_topk, compute_mr
 from utils.directory import makedir, check_file
 
+
+
 from datasets.fashion import Fashion
+from models.model import Model
 
 # from config import data_config, network_config
 
@@ -62,7 +65,7 @@ def get_metrics(test_loader, network, args):
         #[i2t_top1, i2t_top10] = compute_topk(images_bank, text_bank, labels_bank, labels_bank, [1,10])
 
         i2t_top1, i2t_top5, i2t_top10, t2i_top1, t2i_top5, t2i_top10 = compute_topk(images_bank, text_bank, labels_bank, labels_bank, [1,5,10], True)
-        i2t_mr, t2i_mr = compute_mr(images_bank, text_bank, labels_bank, labels_bank, 350, True)
+        i2t_mr, t2i_mr = compute_mr(images_bank, text_bank, labels_bank, labels_bank, 50, True)
 
 
         return i2t_top1, i2t_top5, i2t_top10, i2t_mr, t2i_top1, t2i_top5, t2i_top10, t2i_mr, batch_time.avg
@@ -85,10 +88,10 @@ def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
 def get_test_model_paths(ckpt_path):
 
     test_models = os.listdir(ckpt_path)
-    test_models = list(filter(lambda x: not os.path.isdir,test_models))
+    test_models.remove('model_best')
     test_models = sorted(test_models,key=lambda x: int(x.split(".")[0]))
     test_models = [os.path.join(ckpt_path,x) for x in test_models]
-
+    # print(test_models)
     return test_models
 
 
@@ -131,8 +134,6 @@ def main(args):
 
     test_models = get_test_model_paths(args.model_path)
     best_model_path = None
-
-    print(test_models)
 
     for model_path in test_models:
 
