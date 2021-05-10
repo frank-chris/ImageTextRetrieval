@@ -130,6 +130,7 @@ def main(args):
     t2i_mr = 0.0
 
     test_models = get_test_model_paths(args.model_path)
+    best_model_path = None
 
     for model_path in test_models:
 
@@ -147,8 +148,15 @@ def main(args):
             t2i_top5 = t2i_top5_cur
             t2i_top10 = t2i_top10_cur
 
+            best_model_path = model_path
             dst_best = os.path.join(args.model_path, 'model_best', 'best.pth.tar')
             shutil.copyfile(model_path, dst_best)
+
+    
+    print("Best model: {}".format(best_model_path))
+    print('t2i_top1: {:.3f}, t2i_top5: {:.3f}, t2i_top10: {:.3f}'.format(t2i_top1, t2i_top5, t2i_top10))
+    print('i2t_top1: {:.3f}, i2t_top5: {:.3f}, i2t_top10: {:.3f}'.format(i2t_top1, i2t_top5, i2t_top10))
+
 
 
 if __name__ == '__main__':
