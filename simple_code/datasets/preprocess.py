@@ -1,11 +1,10 @@
 import sys
-sys.path.append("/content/Image_Text_Retrieval/dgpu/simple_code/")
 import pickle
 import json
 import argparse
 import string
 import os
-from utils.directory import write_json, makedir
+from directory import write_json, makedir
 from collections import namedtuple
 
 

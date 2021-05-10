@@ -1,3 +1,3 @@
-Total 6385 captions 6385 images 6385 identities in train
-Total 798 captions 798 images 798 identities in val
-Total 799 captions 799 images 799 identities in test
+Total 9844 captions 9844 images 9844 identities in train
+Total 1230 captions 1230 images 1230 identities in val
+Total 1231 captions 1231 images 1231 identities in test
