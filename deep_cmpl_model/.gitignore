@@ -1,0 +1,21 @@
+<<<<<<< HEAD
+# Images of the dataset
+dataset
+
+# Checkpoint directories
+model_data
+logs
+
+#zip files
+*.zip
+
+# Misccellaneous
+data/f8k
+
+
+=======
+dataset/
+drive/
+dgpu/drive/
+dgpu/data/logs
+>>>>>>> 7d7a4ac943534fa53775eed173be3313ae889b49
