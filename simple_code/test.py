@@ -157,8 +157,8 @@ def main(args):
 
     
     # print("Best model: {}".format(best_model_path))
-    print('t2i_top1_best: {:.3f}, t2i_top5_best: {:.3f}, t2i_top10_best: {:.3f}, t2i_mr_best'.format(t2i_top1, t2i_top5, t2i_top10, t2i_mr))
-    print('i2t_top1: {:.3f}, i2t_top5: {:.3f}, i2t_top10: {:.3f}, i2t_mr_best'.format(i2t_top1, i2t_top5, i2t_top10, i2t_mr))
+    print('t2i_top1_best: {:.3f}, t2i_top5_best: {:.3f}, t2i_top10_best: {:.3f}, t2i_mr_best: {:.3f}'.format(t2i_top1, t2i_top5, t2i_top10, t2i_mr))
+    print('i2t_top1: {:.3f}, i2t_top5: {:.3f}, i2t_top10: {:.3f}, i2t_mr_best: {:.3f}'.format(i2t_top1, i2t_top5, i2t_top10, i2t_mr))
 
 
 
