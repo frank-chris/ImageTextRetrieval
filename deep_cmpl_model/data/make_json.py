@@ -78,11 +78,11 @@ def make_file(num_samples=None):
 
 
 if __name__=="__main__":
-    parent_folder = "/content/Image_Text_Retrieval"
+    parent_folder = "/content/Image_Text_Retrieval/deep_cmpl_model"
     csv_path = parent_folder + "/data/images.csv"
     img_path = "dataset"
     out_path = parent_folder + "/data/reid_raw.json"
-    make_file(1000)
+    make_file()
 
 
 

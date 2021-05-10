@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_ROOT=Image_Text_Retrieval
+BASE_ROOT=Image_Text_Retrieval/deep_cmpl_model
 IMAGE_ROOT=/content/dataset
 
 JSON_ROOT=$BASE_ROOT/data/reid_raw.json

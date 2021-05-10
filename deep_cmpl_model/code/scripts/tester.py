@@ -3,7 +3,7 @@ import os
 GPUS='1'
 os.system('export CUDA_VISIBLE_DEVICES='+GPUS)
 
-BASE_ROOT='/content/Image_Text_Retrieval'
+BASE_ROOT='/content/Image_Text_Retrieval/deep_cmpl_model'
 BASE_ROOT_2='drive/Shareddrives/Image-Text-Retrieval/tempckpt'
 IMAGE_DIR='/content'
 ANNO_DIR=BASE_ROOT+'/data/processed_data'
