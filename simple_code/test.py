@@ -85,7 +85,7 @@ def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
 def get_test_model_paths(ckpt_path):
 
     test_models = os.listdir(ckpt_path)
-    test_models = list(filter(lambda x: os.path.isdir,test_models))
+    test_models = list(filter(lambda x: not os.path.isdir,test_models))
     test_models = sorted(test_models,key=lambda x: int(x.split(".")[0]))
     test_models = [os.path.join(ckpt_path,x) for x in test_models]
 
