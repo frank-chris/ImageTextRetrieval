@@ -10,7 +10,7 @@ echo "Preprocessing dataset"
 
 rm -rf $OUT_ROOT
 
-python3 $BASE_ROOT/simple_code/datasets/preprocess.py \
+python3 $BASE_ROOT/code/datasets/preprocess.py \
         --img_root=${IMAGE_ROOT} \
         --json_root=${JSON_ROOT} \
         --out_root=${OUT_ROOT} \
