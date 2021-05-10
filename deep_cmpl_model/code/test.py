@@ -61,9 +61,6 @@ def get_metrics(test_loader, network, args):
         text_bank = text_bank[:index]
         labels_bank = labels_bank[:index]
 
-        #[t2i_top1, t2i_top10] = compute_topk(text_bank, images_bank, labels_bank, labels_bank, [1,10])
-        #[i2t_top1, i2t_top10] = compute_topk(images_bank, text_bank, labels_bank, labels_bank, [1,10])
-
         i2t_top1, i2t_top5, i2t_top10, t2i_top1, t2i_top5, t2i_top10 = compute_topk(images_bank, text_bank, labels_bank, labels_bank, [1,5,10], True)
         i2t_mr, t2i_mr = compute_mr(images_bank, text_bank, labels_bank, labels_bank, 50, True)
 
