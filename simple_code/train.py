@@ -119,10 +119,10 @@ def get_optimizer(args, network=None, param=None, resume=False, model_path=None)
         lr = args.lr, betas=(args.adam_alpha, args.adam_beta), eps=args.epsilon
     )
 
-    if resume:
-        check_file(model_path, 'model_file')
-        checkpoint = torch.load(model_path)
-        optimizer.load_state_dict(checkpoint['optimizer'])
+    # if resume:
+    #     check_file(model_path, 'model_file')
+    #     checkpoint = torch.load(model_path)
+    #     optimizer.load_state_dict(checkpoint['optimizer'])
 
     print('Total params: %2.fM' % (sum(p.numel() for p in network.parameters()) / 1000000.0))
     # seed
