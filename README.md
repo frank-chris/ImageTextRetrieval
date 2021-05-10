@@ -69,8 +69,6 @@ The metrics obtained from these experiments are as follows:
 
 ![alt text](assets/i2t.PNG)
 
-<br>
-
 ![alt text](assets/t2i.PNG)
 
 
