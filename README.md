@@ -45,7 +45,7 @@ Correlational Network is an autoencoder based approach that explicitly maximises
 Cross-Modal Projection Learning includes Cross-Modal Pro-jection Matching (CMPM) loss for learning discriminative image-text embeddings. This novel image-text matching loss minimizesthe relative entropy between the projection distributions and thenormalized matching distributions. 
 
 #### Modified Deep CMPL
-We modified the Deep Cross-Modal Projection Learning modelby using the EfficientNet [17] architecture instead of MobileNet[6] as the image feature extractor. EfficientNet is a recently pro-posed convolutional neural architecture which outperforms otherstate-of-the-art convolutional neural networks both in terms ofefficiency and accuracy
+We modified the Deep Cross-Modal Projection Learning modelby using the EfficientNet architecture instead of MobileNet as the image feature extractor. EfficientNet is a recently pro-posed convolutional neural architecture which outperforms other state-of-the-art convolutional neural networks both in terms of efficiency and accuracy.
 
 <br>
 
