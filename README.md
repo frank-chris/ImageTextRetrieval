@@ -63,8 +63,15 @@ We experimented different combinations of text and image feature extractors for 
 * Experiment 4: Deep CMPL with EfficientNet on Indian Fashion
 * Experiment 5: Deep CMPL with EfficientNet on DeepFash-ion
 
-
+<br>
 The metrics obtained from these experiments are as follows:
+<br>
+
+![alt text](assets/i2t.png)
+
+<br>
+
+![alt text](assets/t2i.png)
 
 
 
