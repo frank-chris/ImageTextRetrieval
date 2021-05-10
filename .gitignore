@@ -12,7 +12,8 @@ logs
 # Misccellaneous
 data/f8k
 
-
+*.pth.tar
+Demo_Web_App/static/dataset/
 =======
 dataset/
 drive/
