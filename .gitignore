@@ -1,2 +1,14 @@
-dataset/
-data/
+# Images of the dataset
+dataset
+
+# Checkpoint directories
+model_data
+logs
+
+#zip files
+*.zip
+
+# Misccellaneous
+data/f8k
+
+

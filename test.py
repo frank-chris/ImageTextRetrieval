@@ -2,11 +2,11 @@ import os
 import sys
 import time
 import shutil
-import logging
 import gc
 import torch
 import torchvision.transforms as transforms
-from utils.metric import AverageMeter, compute_topk
+from utils.helpers import avg_calculator
+from utils.metric import compute_topk
 from test_config import config
 from config import data_config, network_config
 
