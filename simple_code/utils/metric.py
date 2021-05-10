@@ -89,11 +89,11 @@ class Loss(nn.Module):
          
         i2t_pred = F.softmax(image_proj_text, dim=1)
         #i2t_loss = i2t_pred * torch.log((i2t_pred + self.epsilon)/ (labels_mask_norm + self.epsilon))
-        i2t_loss = i2t_pred * (F.log_softmax(image_proj_text, dim=1) - torch.log(labels_mask_norm + self.epsilon))
+        i2t_loss = i2t_pred.to(device="cpu") * (F.log_softmax(image_proj_text.to(device="cpu"), dim=1) - torch.log(labels_mask_norm.to(device="cpu") + self.epsilon))
         
         t2i_pred = F.softmax(text_proj_image, dim=1)
         #t2i_loss = t2i_pred * torch.log((t2i_pred + self.epsilon)/ (labels_mask_norm + self.epsilon))
-        t2i_loss = t2i_pred * (F.log_softmax(text_proj_image, dim=1) - torch.log(labels_mask_norm + self.epsilon))
+        t2i_loss = t2i_pred.to(device="cpu") * (F.log_softmax(text_proj_image.to(device="cpu"), dim=1) - torch.log(labels_mask_norm.to(device="cpu") + self.epsilon))
 
         cmpm_loss = torch.mean(torch.sum(i2t_loss, dim=1)) + torch.mean(torch.sum(t2i_loss, dim=1))
 
