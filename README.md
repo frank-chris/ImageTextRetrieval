@@ -22,7 +22,7 @@ Each of the folders contains a dedicated Readme detailing the instructions to ru
 ## Model Architectures
 
 ### Siamese Network
-Siamese Network is a neural network architecture that containstwo or more identical sub-networks having the same weights andparameters. It is commonly used to find the similarity of theinputs by comparing its feature vector outputs. We implementeda two-branch neural network inspired from Siamese Network ar-chitecture and used a contrastive loss function for our task.
+Siamese Network is a neural network architecture that contains two or more identical sub-networks having the same weights and parameters. It is commonly used to find the similarity of the inputs by comparing its feature vector outputs. We implemented a two-branch neural network inspired from Siamese Network architecture and used a contrastive loss function for our task.
 
 <br>
 
@@ -32,7 +32,7 @@ Siamese Network is a neural network architecture that containstwo or more identi
 <br>
 
 ### Correlational Network
-Correlational Network is an autoencoder based approach thatexplicitly maximises correlation between image and text embeddedvectors in addition to minimising the error of reconstructing thetwo views(image and text)[16]. This model also has two branches -one for images and one for text, but at the same time it also has anencoder and decoder.
+Correlational Network is an autoencoder based approach that explicitly maximises correlation between image and text embedded vectors in addition to minimising the error of reconstructing thetwo views(image and text). This model also has two branches -one for images and one for text, but at the same time it also has anencoder and decoder.
 
 <br>
 
@@ -42,7 +42,7 @@ Correlational Network is an autoencoder based approach thatexplicitly maximises 
 <br>
 
 ### DEEP CMPL Network
-Cross-Modal Projection Learning[21] includes Cross-Modal Pro-jection Matching (CMPM) loss for learning discriminative image-text embeddings. This novel image-text matching loss minimizesthe relative entropy between the projection distributions and thenormalized matching distributions. 
+Cross-Modal Projection Learning includes Cross-Modal Pro-jection Matching (CMPM) loss for learning discriminative image-text embeddings. This novel image-text matching loss minimizesthe relative entropy between the projection distributions and thenormalized matching distributions. 
 
 #### Modified Deep CMPL
 We modified the Deep Cross-Modal Projection Learning modelby using the EfficientNet [17] architecture instead of MobileNet[6] as the image feature extractor. EfficientNet is a recently pro-posed convolutional neural architecture which outperforms otherstate-of-the-art convolutional neural networks both in terms ofefficiency and accuracy
