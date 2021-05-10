@@ -9,7 +9,7 @@ from utils.directory import check_exists
 from PIL import Image
 from imageio import imread
 
-class CuhkPedes(data.Dataset):
+class Fashion(data.Dataset):
     '''
     Args:
         root (string): Base root directory of dataset where [split].pkl and [split].h5 exists
