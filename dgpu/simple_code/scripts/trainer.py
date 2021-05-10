@@ -18,7 +18,7 @@ LOG_DIR=BASE_ROOT_2+'/data/logs'
 IMAGE_MODEL='efficient_net'
 lr='0.0002'
 num_epoches='300'
-batch_size='16'
+batch_size='32'
 lr_decay_ratio='0.9'
 epoches_decay='80_150_200'
 

@@ -259,18 +259,18 @@ class AverageMeter(object):
         self.avg = self.sum / self.count
 
 
-def compute_topk(query, gallery, target_query, target_gallery, k=[1,10], reverse=False):
+def compute_topk(query, gallery, target_query, target_gallery, k=[1,5,10], reverse=False):
     result = []
     query = query / query.norm(dim=1,keepdim=True)
     gallery = gallery / gallery.norm(dim=1,keepdim=True)
     sim_cosine = torch.matmul(query, gallery.t())
-    result.extend(topk(sim_cosine, target_gallery, target_query, k=[1,10]))
+    result.extend(topk(sim_cosine, target_gallery, target_query, k=[1,5,10]))
     if reverse:
-        result.extend(topk(sim_cosine, target_query, target_gallery, k=[1,10], dim=0))
+        result.extend(topk(sim_cosine, target_query, target_gallery, k=[1,5,10], dim=0))
     return result
 
 
-def topk(sim, target_gallery, target_query, k=[1,10], dim=1):
+def topk(sim, target_gallery, target_query, k=[1,5,10], dim=1):
     result = []
     maxk = max(k)
     size_total = len(target_gallery)
