@@ -143,7 +143,7 @@ def main(args):
             t2i_top5 = t2i_top5_cur
             t2i_top10 = t2i_top10_cur
 
-            dst_best = os.path.join(args.model_path, 'model_best', 'best.pth.tar'
+            dst_best = os.path.join(args.model_path, 'model_best', 'best.pth.tar')
             shutil.copyfile(model_path, dst_best)
 
 
