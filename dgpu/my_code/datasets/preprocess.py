@@ -1,14 +1,11 @@
 import sys
-<<<<<<< HEAD:datasets/preprocess.py
-=======
 sys.path.append("drive/Shareddrives/Image-Text-Retrieval/deepcca/my_code")
->>>>>>> 7d7a4ac943534fa53775eed173be3313ae889b49:dgpu/my_code/datasets/preprocess.py
 import pickle
 import json
 import argparse
 import string
 import os
-from directory import write_json, makedir
+from utils.directory import write_json, makedir
 from collections import namedtuple
 
 
