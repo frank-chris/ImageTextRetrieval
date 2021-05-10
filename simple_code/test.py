@@ -10,6 +10,8 @@ from utils.helpers import avg_calculator
 from utils.metric import compute_topk, compute_mr
 from utils.directory import makedir, check_file
 
+from datasets.fashion import Fashion
+
 # from config import data_config, network_config
 
 from test_params import get_test_args
