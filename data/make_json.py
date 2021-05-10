@@ -58,8 +58,9 @@ def make_file(num_samples=None):
             elif image_id in test_ids:
                 split="test"
             else:
-                print("**",image_id)
-                raise Exception("Sample not alloted")
+                # print("**",image_id)
+                # raise Exception("Sample not alloted")
+                continue
             
             sample_dict["split"] = split
             sample_dict["captions"] = [description]
