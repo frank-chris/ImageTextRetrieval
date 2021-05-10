@@ -19,7 +19,7 @@ Each of the folders contains a dedicated Readme detailing the instructions to ru
 
 # Theoretical Details
 
-## Experimented models
+## Model Architectures
 
 ### Siamese Network
 Siamese Network is a neural network architecture that containstwo or more identical sub-networks having the same weights andparameters. It is commonly used to find the similarity of theinputs by comparing its feature vector outputs. We implementeda two-branch neural network inspired from Siamese Network ar-chitecture and used a contrastive loss function for our task.
@@ -51,6 +51,24 @@ We modified the Deep Cross-Modal Projection Learning modelby using the Efficient
 
 #### *Network Architecture*
 ![alt text](assets/deepcmpl.png)
+
+<br>
+
+## Experimentations
+
+We experimented different combinations of text and image feature extractors for learning common image-text embeddings. The tested combinations include:
+* Experiment 1: Siamese Network
+* Experiment 2: Correlational Network
+* Experiment 3: Deep CMPL with MobileNet
+* Experiment 4: Deep CMPL with EfficientNet on Indian Fashion
+* Experiment 5: Deep CMPL with EfficientNet on DeepFash-ion
+
+
+The metrics obtained from these experiments are as follows:
+
+
+
+
 
 
 
