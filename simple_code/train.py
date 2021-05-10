@@ -33,9 +33,9 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
 
     for step, (images, captions, labels, captions_length) in enumerate(train_loader):
 
-        images = images.cuda()
-        labels = labels.cuda()
-        captions = captions.cuda()
+        images = images
+        labels = labels
+        captions = captions
 
         # compute loss
         image_embeddings, text_embeddings = network(images, captions, captions_length)
@@ -177,7 +177,7 @@ def main(args):
     
     # loss
     compute_loss = Loss(args)
-    nn.DataParallel(compute_loss).cuda()
+    nn.DataParallel(compute_loss)
     
     # network
     network = get_network(args, args.resume, args.model_path)
