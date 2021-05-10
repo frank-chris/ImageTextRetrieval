@@ -67,11 +67,11 @@ We experimented different combinations of text and image feature extractors for 
 The metrics obtained from these experiments are as follows:
 <br>
 
-![alt text](assets/i2t.png)
+![alt text](assets/i2t.PNG)
 
 <br>
 
-![alt text](assets/t2i.png)
+![alt text](assets/t2i.PNG)
 
 
 
