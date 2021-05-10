@@ -6,6 +6,8 @@ import gc
 import torch
 import torchvision.transforms as transforms
 
+import torch.utils.data as data
+
 from utils.helpers import avg_calculator
 from utils.metric import compute_topk, compute_mr
 from utils.directory import makedir, check_file
