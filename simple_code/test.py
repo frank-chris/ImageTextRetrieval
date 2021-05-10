@@ -146,10 +146,12 @@ def main(args):
             i2t_top1 = i2t_top1_cur
             i2t_top5 = i2t_top5_cur
             i2t_top10 = i2t_top10_cur
+            i2t_mr = i2t_mr_cur
 
             t2i_top1 = t2i_top1_cur
             t2i_top5 = t2i_top5_cur
             t2i_top10 = t2i_top10_cur
+            t2i_mr = t2i_mr_cur
 
             best_model_path = model_path
             dst_best = os.path.join(args.model_path, 'model_best', 'best.pth.tar')
