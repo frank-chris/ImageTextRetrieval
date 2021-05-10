@@ -120,7 +120,7 @@ def get_optimizer(args, network=None, param=None, resume=False, model_path=None)
     )
 
     if resume:
-        directory.check_file(model_path, 'model_file')
+        check_file(model_path, 'model_file')
         checkpoint = torch.load(model_path)
         optimizer.load_state_dict(checkpoint['optimizer'])
 
