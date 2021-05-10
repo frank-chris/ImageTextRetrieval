@@ -6,8 +6,6 @@ IMAGE_DIR=/mnt/c/Users/RAGHAV/Raghav_Goyal/Sem_6/Machine_Learning/project/Image_
 ANNO_DIR=$BASE_ROOT/data/processed_data
 CKPT_DIR=$BASE_ROOT/data/model_data
 LOG_DIR=$BASE_ROOT/data/logs
-PRETRAINED_PATH=$BASE_ROOT/pretrained_models/mobilenet.tar
-#PRETRAINED_PATH=$BASE_ROOT/resnet50.pth
 IMAGE_MODEL=mobilenet_v1
 lr=0.0002
 num_epoches=300
@@ -15,7 +13,7 @@ batch_size=16
 lr_decay_ratio=0.9
 epoches_decay=80_150_200
 
-python3 $BASE_ROOT/my_code/train.py \
+python3 $BASE_ROOT/train.py \
     --bidirectional \
     --image_model $IMAGE_MODEL \
     --log_dir $LOG_DIR/lr-$lr-decay-$lr_decay_ratio-batch-$batch_size \
