@@ -136,7 +136,7 @@ def main(args):
     best_model_path = None
 
     for model_path in test_models:
-
+        
         network= get_network(args, model_path)
 
         i2t_top1_cur, i2t_top5_cur, i2t_top10_cur, i2t_mr_cur, t2i_top1_cur, t2i_top5_cur, t2i_top10_cur, t2i_mr_cur, test_time = get_metrics(test_loader, network, args)
