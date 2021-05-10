@@ -2,7 +2,7 @@ import argparse
 import os
 
 def get_train_args():
-    parser = argparse.ArgumentParser(description='command for train on CUHK-PEDES')
+    parser = argparse.ArgumentParser(description='command for train on Fashion Dataset')
 
     # Directory
     parser.add_argument('--image_dir', type=str, help='directory to store dataset')

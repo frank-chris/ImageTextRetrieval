@@ -1,10 +1,10 @@
 import argparse
-from config import log_config 
-import logging
+import os
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='command for evaluate on CUHK-PEDES')
+def get_test_args():
+    parser = argparse.ArgumentParser(description='command for evaluate on Fashion Dataset')
+
     # Directory
     parser.add_argument('--image_dir', type=str, help='directory to store dataset')
     parser.add_argument('--anno_dir', type=str, help='directory to store anno')
@@ -17,13 +17,15 @@ def parse_args():
     parser.add_argument('--vocab_size', type=int, default=12000)
     parser.add_argument('--lstm_dropout_ratio', type=float, default=0.7)
     parser.add_argument('--bidirectional', action='store_true')
-
     parser.add_argument('--max_length', type=int, default=100)
     parser.add_argument('--feature_size', type=int, default=512)
 
+    # Model Setting
     parser.add_argument('--image_model', type=str, default='mobilenet_v1')
     parser.add_argument('--cnn_dropout_keep', type=float, default=0.999)
+    parser.add_argument('--batch_size', type=int, default=64)
     
+    # Optimization Settings
     parser.add_argument('--epoch_ema', type=int, default=0)
     
     # Default setting

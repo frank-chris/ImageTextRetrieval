@@ -1,11 +1,10 @@
 import sys
-sys.path.append("/mnt/c/Users/RAGHAV/Raghav_Goyal/Sem_6/Machine_Learning/project/deepcca/my_code")
 import pickle
 import json
 import argparse
 import string
 import os
-from utils.directory import write_json, makedir
+from directory import write_json, makedir
 from collections import namedtuple
 
 

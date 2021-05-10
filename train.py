@@ -79,7 +79,7 @@ def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
 
 
 
-def get_network(resume=False,model_path=None):
+def get_network(args, resume=False, model_path=None):
 
     network = Model(args)
     network = nn.DataParallel(network)
@@ -135,7 +135,6 @@ def get_optimizer(args, network=None, param=None, resume=False):
 
 
 
-
 def adjust_lr(optimizer, epoch, args):
 
     # Decay learning rate by args.lr_decay_ratio every args.epoches_decay
@@ -181,7 +180,7 @@ def main(args):
     nn.DataParallel(compute_loss)
     
     # network
-    network = get_network()
+    network = get_network(args, args.resume, args.model_path)
     optimizer = get_optimizer(args, network, compute_loss.parameters(), args.resume)
     
     # lr_scheduler
