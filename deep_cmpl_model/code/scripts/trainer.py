@@ -1,8 +1,8 @@
+# Used for training the model
+
 import os
 
 GPUS = '1'
-
-# print('done')
 
 os.system('export CUDA_VISIBLE_DEVICES='+GPUS)
 
@@ -13,8 +13,6 @@ IMAGE_DIR='/content'
 ANNO_DIR=BASE_ROOT+'/data/processed_data'
 CKPT_DIR=BASE_ROOT_2+'/data/model_data'
 LOG_DIR=BASE_ROOT_2+'/data/logs'
-# PRETRAINED_PATH=$BASE_ROOT/pretrained_models/mobilenet.tar
-# PRETRAINED_PATH=$BASE_ROOT/resnet50.pth
 IMAGE_MODEL='efficient_net'
 lr='0.0002'
 num_epoches='300'

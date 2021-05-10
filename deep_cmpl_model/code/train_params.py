@@ -1,6 +1,10 @@
 import argparse
 import os
 
+"""
+Used for setting the paramsters for model, bilstm, etc. while training
+"""
+
 def get_train_args():
     parser = argparse.ArgumentParser(description='command for train on Fashion Dataset')
 

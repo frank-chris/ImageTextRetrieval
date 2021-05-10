@@ -4,6 +4,9 @@ from .mobilenet import MobileNetV1
 from .resnet import resnet50
 from .eff_net import EffNet
 
+"""
+The entire model pipeline
+"""
 
 class Model(nn.Module):
     def __init__(self, args):

@@ -9,12 +9,7 @@ from statistics import median
 
 
 def pairwise_distance(A, B):
-    """
-    Compute distance between points in A and points in B
-    :param A:  (m,n) -m points, each of n dimension. Every row vector is a point, denoted as A(i).
-    :param B:  (k,n) -k points, each of n dimension. Every row vector is a point, denoted as B(j).
-    :return:  Matrix with (m, k). And the ele in (i,j) is the distance between A(i) and B(j)
-    """
+
     A_square = torch.sum(A * A, dim=1, keepdim=True)
     B_square = torch.sum(B * B, dim=1, keepdim=True)
 
@@ -35,9 +30,9 @@ def one_hot_coding(index, k):
 
 
 
-#################################################################
-# LOSS MODULE
-#################################################################
+"""
+LOSS MODULE
+"""
 
 
 class Loss(nn.Module):
@@ -60,7 +55,7 @@ class Loss(nn.Module):
             nn.init.xavier_uniform_(self.W.data, gain=1)        
 
 
-
+    # CMPM Loss
     def compute_cmpm_loss(self, image_embeddings, text_embeddings, labels):
         """
         Cross-Modal Projection Matching Loss(CMPM)
@@ -117,11 +112,11 @@ class Loss(nn.Module):
         return cmpm_loss, pos_avg_sim, neg_avg_sim
 
         
-#################################################################
-# Recall rate and Median Rank
-#################################################################
+""""
+Recall rate and Median Rank
+"""
 
-
+# Computes the recall rate
 def compute_topk(query, gallery, target_query, target_gallery, k=[1,5,10], reverse=False):
     result = []
     query = query / query.norm(dim=1,keepdim=True)
@@ -151,6 +146,9 @@ def topk(sim, target_gallery, target_query, k=[1,5,10], dim=1):
     return result
 
 
+"""
+Computes the Median Rank
+"""
 def compute_mr(query, gallery, target_query, target_gallery, k, reverse=False):
     result = []
     query = query / query.norm(dim=1,keepdim=True)

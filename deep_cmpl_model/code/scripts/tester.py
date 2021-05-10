@@ -1,3 +1,5 @@
+# Used for testing the model
+
 import os
 
 GPUS='1'

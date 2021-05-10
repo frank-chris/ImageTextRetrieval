@@ -8,6 +8,10 @@ from directory import write_json, makedir
 from collections import namedtuple
 
 
+"""
+Preprocesses the json file
+"""
+
 ImageMetaData = namedtuple('ImageMetaData', ['id', 'image_path', 'captions', 'split'])
 ImageDecodeData = namedtuple('ImageDecodeData', ['id', 'image_path', 'captions_id', 'split'])
 

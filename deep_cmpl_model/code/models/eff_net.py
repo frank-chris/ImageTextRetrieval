@@ -7,6 +7,10 @@ import torch
 from torchvision import transforms
 from efficientnet_pytorch import EfficientNet
 
+"""
+Efficient Net
+"""
+
 class EffNet(nn.Module):
     def __init__(self):
         super(EffNet,self).__init__()

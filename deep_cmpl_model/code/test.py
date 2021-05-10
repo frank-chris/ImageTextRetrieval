@@ -12,16 +12,16 @@ from utils.helpers import avg_calculator
 from utils.metric import compute_topk, compute_mr
 from utils.directory import makedir, check_file
 
-
-
 from datasets.fashion import Fashion
 from models.model import Model
-
-# from config import data_config, network_config
 
 from test_params import get_test_args
 
 
+
+"""
+Calculates the recall rate and median rank metrics
+"""
 def get_metrics(test_loader, network, args):
 
     batch_time = avg_calculator()
@@ -68,6 +68,9 @@ def get_metrics(test_loader, network, args):
         return i2t_top1, i2t_top5, i2t_top10, i2t_mr, t2i_top1, t2i_top5, t2i_top10, t2i_mr, batch_time.avg
 
 
+"""
+Initialise the data loader
+"""
 def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
 
     test_transform = transforms.Compose([
@@ -82,6 +85,9 @@ def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
     return loader
 
 
+"""
+Returns a list of model checkpoint paths
+"""
 def get_test_model_paths(ckpt_path):
 
     test_models = os.listdir(ckpt_path)
@@ -92,6 +98,10 @@ def get_test_model_paths(ckpt_path):
     return test_models
 
 
+
+"""
+Initialise the network object
+"""
 def get_network(args, model_path=None):
 
     network = Model(args)
@@ -113,9 +123,10 @@ def get_network(args, model_path=None):
 
 
 
+"""
+Tests the model on the test set using the checkpoints stored, prints the metrics
+"""
 def main(args):
-    # need to clear the pipeline
-    # top1 & top10 need to be chosen in the same params ???
 
     test_loader = get_data_loader(args.image_dir, args.anno_dir, args.batch_size, 'test', args.max_length)
 
@@ -162,6 +173,6 @@ def main(args):
 
 
 if __name__ == '__main__':
-    
+    # get user's arguments
     args = get_test_args()
     main(args)

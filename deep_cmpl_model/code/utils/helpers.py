@@ -1,3 +1,5 @@
+
+# Class to calculate average of a quantity over time
 class avg_calculator():
 
     def __init__(self):

@@ -1,3 +1,5 @@
+# Directory related helper functions
+
 import os
 import json
 

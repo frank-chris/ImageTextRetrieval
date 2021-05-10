@@ -5,6 +5,9 @@ import math
 Imported by https://github.com/marvis/pytorch-mobilenet/blob/master/main.py
 """
 
+"""
+Mobilenet
+"""
 
 class MobileNetV1(nn.Module):
     def __init__(self, dropout_keep_prob=0.999):

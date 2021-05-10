@@ -2,6 +2,10 @@ import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
 
 
+"""
+Resnet
+"""
+
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
 

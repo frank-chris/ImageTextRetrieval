@@ -9,6 +9,11 @@ from utils.directory import check_exists
 from PIL import Image
 from imageio import imread
 
+
+"""
+Created the dataset object
+"""
+
 class Fashion(data.Dataset):
     '''
     Args:

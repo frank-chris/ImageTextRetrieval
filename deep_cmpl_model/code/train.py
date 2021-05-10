@@ -19,7 +19,9 @@ from models.model import Model
 from train_params import get_train_args
 
 
-
+"""
+Train for one epoch, apply backpropagation, return loss after current epoch
+"""
 def train(epoch, train_loader, network, optimizer, compute_loss, args):
 
     # Trains for 1 epoch
@@ -62,7 +64,9 @@ def train(epoch, train_loader, network, optimizer, compute_loss, args):
 
 
 
-
+"""
+Initialise the data loader
+"""
 def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
 
     train_transform = transforms.Compose([
@@ -78,7 +82,9 @@ def get_data_loader(image_dir, anno_dir, batch_size, split, max_length):
     return loader
 
 
-
+"""
+Initialise the network object
+"""
 def get_network(args, resume=False, model_path=None):
 
     network = Model(args)
@@ -100,7 +106,9 @@ def get_network(args, resume=False, model_path=None):
     return network
 
 
-
+"""
+Initialise optimizer object
+"""
 def get_optimizer(args, network=None, param=None, resume=False, model_path=None):
 
     #process optimizer params
@@ -136,7 +144,9 @@ def get_optimizer(args, network=None, param=None, resume=False, model_path=None)
     return optimizer
 
 
-
+"""
+Modify learning rate
+"""
 def adjust_lr(optimizer, epoch, args):
 
     # Decay learning rate by args.lr_decay_ratio every args.epoches_decay
@@ -149,7 +159,9 @@ def adjust_lr(optimizer, epoch, args):
             param_group['lr'] = lr
 
 
-
+"""
+Multistep Learning Rate Scheduler which decays learning rate after a no. of epochs specified by the user
+"""
 def lr_scheduler(optimizer, args):
 
     if '_' in args.epoches_decay:
@@ -162,7 +174,9 @@ def lr_scheduler(optimizer, args):
     return scheduler
 
 
-
+"""
+Saves the checkpoints
+"""
 def save_checkpoint(state, epoch, ckpt_dir, is_best):
 
     filename = os.path.join(ckpt_dir, str(args.start_epoch + epoch)) + '.pth.tar'
@@ -173,6 +187,10 @@ def save_checkpoint(state, epoch, ckpt_dir, is_best):
 
 
 
+
+"""
+Initializes data loader, loss object, network, optimizer, runs the desired no. of epochs
+"""
 def main(args):
     
     train_loader = get_data_loader(args.image_dir, args.anno_dir, args.batch_size, 'train', args.max_length)
@@ -216,8 +234,10 @@ def main(args):
 
 if __name__ == "__main__":
 
+    # Get arguments passed by user
     args = get_train_args()
 
+    # Validate existence of image and annotation directory
     if not os.path.exists(args.image_dir):
         raise ValueError('Supply the dataset directory with --image_dir')
     if not os.path.exists(args.anno_dir):

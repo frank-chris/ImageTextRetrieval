@@ -1,6 +1,9 @@
 import argparse
 import os
 
+"""
+Used for setting the paramsters while testing
+"""
 
 def get_test_args():
     parser = argparse.ArgumentParser(description='command for evaluate on Fashion Dataset')
