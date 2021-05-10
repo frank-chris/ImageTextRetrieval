@@ -132,6 +132,8 @@ def main(args):
     test_models = get_test_model_paths(args.model_path)
     best_model_path = None
 
+    print(test_models)
+
     for model_path in test_models:
 
         network= get_network(args, model_path)
