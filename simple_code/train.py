@@ -101,7 +101,7 @@ def get_network(args, resume=False, model_path=None):
 
 
 
-def get_optimizer(args, network=None, param=None, resume=False):
+def get_optimizer(args, network=None, param=None, resume=False, model_path=None):
 
     #process optimizer params
 
@@ -120,6 +120,8 @@ def get_optimizer(args, network=None, param=None, resume=False):
     )
 
     if resume:
+        directory.check_file(model_path, 'model_file')
+        checkpoint = torch.load(model_path)
         optimizer.load_state_dict(checkpoint['optimizer'])
 
     print('Total params: %2.fM' % (sum(p.numel() for p in network.parameters()) / 1000000.0))
@@ -181,7 +183,7 @@ def main(args):
     
     # network
     network = get_network(args, args.resume, args.model_path)
-    optimizer = get_optimizer(args, network, compute_loss.parameters(), args.resume)
+    optimizer = get_optimizer(args, network, compute_loss.parameters(), args.resume, args.model_path)
     
     # lr_scheduler
     scheduler = lr_scheduler(optimizer, args)
